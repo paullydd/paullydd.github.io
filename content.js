@@ -85,6 +85,37 @@ window.SITE = {
       "url": ""
     },
     {
+      "slug": "log-analyzer",
+      "name": "Python Security Log Analyzer",
+      "cat": "detection",
+      "kind": "Detection script",
+      "status": "shipped",
+      "one": "Finds brute-force attacks in Windows security logs.",
+      "lede": "A Python tool that reads Windows security event logs and flags brute-force activity the way a SIEM correlation rule would. It was my first detection tool and the starting point for SOC-Forge.",
+      "did": [
+        "Parsed Windows event logs for failed logins (4625), successful logins (4624) and process creation (4688)",
+        "Summarized activity: totals per event type, the accounts with the most failed logins and the most-run processes",
+        "Flagged brute-force attempts by account and by source IP once failures pass a threshold",
+        "Added time-window correlation that catches five or more failed logins within 60 seconds, like a SIEM rule in Splunk or Sentinel",
+        "Built a synthetic log dataset so every run is reproducible, using only the Python standard library"
+      ],
+      "findings": [],
+      "next": "Correlating a brute-force burst with a successful login and process launches from the same source, plus JSON and CSV alert export and command-line options.",
+      "log": [
+        "4625 x8  jdoe from 192.168.1.22 in 14 seconds",
+        "alert IP 192.168.1.22 made 8 failed attempts within 60 seconds",
+        "alert User 'jdoe' made 8 failed attempts within 60 seconds"
+      ],
+      "stack": [
+        "Python",
+        "Windows event logs",
+        "Log analysis",
+        "Detection engineering",
+        "Event correlation"
+      ],
+      "url": ""
+    },
+    {
       "slug": "shipco",
       "name": "Shipco Data Leak Investigation",
       "cat": "investigation",
