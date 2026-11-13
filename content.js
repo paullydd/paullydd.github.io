@@ -119,6 +119,45 @@ window.SITE = {
       "url": "https://github.com/paullydd/python-log-parser"
     },
     {
+      "slug": "ml-anomaly-ids",
+      "name": "ML Network Anomaly Detection",
+      "cat": "detection",
+      "kind": "Prototype IDS",
+      "status": "active",
+      "one": "An intrusion detection prototype that uses machine learning on network traffic.",
+      "lede": "A prototype intrusion detection system that learns what normal network and login activity looks like, then flags flows that don't fit. It uses unsupervised machine learning, so it doesn't need labeled attack data to get started.",
+      "did": [
+        "Turned packet captures into network flows with PyShark, the Python wrapper for tshark (Wireshark's command-line engine)",
+        "Engineered flow features: ports, protocol, packet and byte counts, duration, time between packets, and TCP SYN and ACK counts",
+        "Merged network features with Windows login data (4624, 4625, 4688), such as failed logins per IP, into one dataset",
+        "Trained an Isolation Forest model that gives every flow an anomaly score and a normal or anomaly label",
+        "Built a live mode with Scapy that sniffs an interface, assembles flows as they happen and scores each one when it ends",
+        "Packaged it as a command-line tool, anomaly-detect, with Streamlit dashboards for reviewing scored flows"
+      ],
+      "findings": [
+        "Retraining on a recent baseline capture cut false positives a lot in live testing",
+        "Anomaly scores come out as a continuous range, so they need thresholds to become alert severities",
+        "The model is sensitive to feature scaling and to what's normal in each environment, so it isn't a replacement for signature-based tools like Suricata or Zeek"
+      ],
+      "next": "Testing against labeled attack traffic to measure detection rates, adding severity thresholds and alerting, and Zeek log support.",
+      "log": [
+        "pcap     extract flow features from captures",
+        "features merge network flows with login data",
+        "predict  score each flow with Isolation Forest",
+        "live     sniff en0, score flows as they finish"
+      ],
+      "stack": [
+        "Python",
+        "Machine learning",
+        "Anomaly detection",
+        "Packet analysis",
+        "Network traffic analysis",
+        "Scapy",
+        "Windows event logs"
+      ],
+      "url": ""
+    },
+    {
       "slug": "shipco",
       "name": "Shipco Data Leak Investigation",
       "cat": "investigation",
@@ -346,7 +385,11 @@ window.SITE = {
         "Git",
         "GitHub",
         "VS Code",
-        "Secure coding"
+        "Secure coding",
+        "Machine learning",
+        "scikit-learn",
+        "Pandas",
+        "Streamlit"
       ]
     },
     {
