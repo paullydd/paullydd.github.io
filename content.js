@@ -127,24 +127,26 @@ window.SITE = {
       "one": "An intrusion detection prototype that uses machine learning on network traffic.",
       "lede": "A prototype intrusion detection system that learns what normal network and login activity looks like, then flags flows that don't fit. It uses unsupervised machine learning, so it doesn't need labeled attack data to get started.",
       "did": [
-        "Turned packet captures into network flows with PyShark, the Python wrapper for tshark (Wireshark's command-line engine)",
+        "Wrote a dependency-free parser for .pcap and .pcapng captures and turned packets into network flows",
         "Engineered flow features: ports, protocol, packet and byte counts, duration, time between packets, and TCP SYN and ACK counts",
-        "Merged network features with Windows login data (4624, 4625, 4688), such as failed logins per IP, into one dataset",
-        "Trained an Isolation Forest model that gives every flow an anomaly score and a normal or anomaly label",
-        "Built a live mode with Scapy that sniffs an interface, assembles flows as they happen and scores each one when it ends",
-        "Packaged it as a command-line tool, anomaly-detect, with Streamlit dashboards for reviewing scored flows"
+        "Joined Windows logon activity (4624, 4625, 4688), such as failed logons per source IP, onto each flow",
+        "Trained an Isolation Forest that scores every flow, assigns a severity and explains in plain words which features made it stand out",
+        "Built a live mode with Scapy that scores flows as they finish, using the same flow code as batch mode",
+        "Packaged it as a command-line tool, anomaly-detect, with an HTML report, Streamlit dashboards and a pytest suite",
+        "Built a synthetic capture with a hidden attack, lined up with sample Windows logs, to measure what the model catches"
       ],
       "findings": [
-        "Retraining on a recent baseline capture cut false positives a lot in live testing",
-        "Anomaly scores come out as a continuous range, so they need thresholds to become alert severities",
-        "The model is sensitive to feature scaling and to what's normal in each environment, so it isn't a replacement for signature-based tools like Suricata or Zeek"
+        "On the sample attack, the exfiltration upload scored as the most unusual flow and the RDP session after the brute force came next",
+        "It missed the port scan and the brute-force attempts: each one is a small flow that looks normal by itself, which is where rule-based detection like my log analyzer fits",
+        "About 5% of normal flows were flagged, mostly large file transfers, so tuning to each network matters. In live testing, retraining on a recent baseline cut false positives a lot",
+        "It's a lead generator, not a replacement for signature-based tools like Suricata or Zeek"
       ],
-      "next": "Testing against labeled attack traffic to measure detection rates, adding severity thresholds and alerting, and Zeek log support.",
+      "next": "Adding cross-flow features such as distinct ports per source to catch scans and brute force, then measuring detection rates on a labeled dataset like CIC-IDS2017.",
       "log": [
-        "pcap     extract flow features from captures",
-        "features merge network flows with login data",
-        "predict  score each flow with Isolation Forest",
-        "live     sniff en0, score flows as they finish"
+        "sample   generate a capture with a hidden attack",
+        "run      logs, flows, features, model, report",
+        "Critical 192.168.1.22 -> 203.0.113.50:443  bytes sent unusually high",
+        "live     sudo, score flows on en0 as they finish"
       ],
       "stack": [
         "Python",
@@ -153,7 +155,8 @@ window.SITE = {
         "Packet analysis",
         "Network traffic analysis",
         "Scapy",
-        "Windows event logs"
+        "Windows event logs",
+        "pytest"
       ],
       "url": "https://github.com/paullydd/ml-network-detection"
     },
@@ -389,7 +392,8 @@ window.SITE = {
         "Machine learning",
         "scikit-learn",
         "Pandas",
-        "Streamlit"
+        "Streamlit",
+        "pytest"
       ]
     },
     {
