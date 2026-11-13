@@ -90,21 +90,24 @@ window.SITE = {
       "cat": "detection",
       "kind": "Detection script",
       "status": "shipped",
-      "one": "Finds brute-force attacks in Windows security logs.",
-      "lede": "A Python tool that reads Windows security event logs and flags brute-force activity the way a SIEM correlation rule would. It was my first detection tool and the starting point for SOC-Forge.",
+      "one": "Detects brute force, password spraying and account compromise in Windows security logs.",
+      "lede": "A modular Python pipeline that reads Windows security event logs, finds brute-force bursts, ties them to the login and process launches that follow, and explains every alert it raises. It was my first detection tool and the starting point for SOC-Forge.",
       "did": [
-        "Parsed Windows event logs for failed logins (4625), successful logins (4624) and process creation (4688)",
-        "Summarized activity: totals per event type, the accounts with the most failed logins and the most-run processes",
-        "Flagged brute-force attempts by account and by source IP once failures pass a threshold",
-        "Added time-window correlation that catches five or more failed logins within 60 seconds, like a SIEM rule in Splunk or Sentinel",
-        "Built a synthetic log dataset so every run is reproducible, using only the Python standard library"
+        "Parsed Windows security event logs for failed logins (4625), successful logins (4624) and process creation (4688)",
+        "Detected brute-force bursts by account and by source IP with a sliding 60-second window, raising one alert per burst instead of one per failed login",
+        "Caught password spraying (many accounts, few tries each, under lockout limits) and low-and-slow guessing spread over hours, which never form a burst",
+        "Correlated a burst or spray, a successful login from the same IP and the processes that followed into a critical compromise-chain alert mapped to MITRE ATT&CK (T1110, T1110.003, T1078, T1059)",
+        "Scored each alert from the evidence and listed the reasons behind every score, so an analyst can see why it fired",
+        "Produced an escaped HTML report plus JSON and CSV export, with command-line filters and tunable thresholds",
+        "Validated it on labeled attack scenarios and on random noise, where it raises zero alerts, with tests that run on every push"
       ],
       "findings": [],
-      "next": "Correlating a brute-force burst with a successful login and process launches from the same source, plus JSON and CSV alert export and command-line options.",
+      "next": "Catching attacks spread across many source IPs, then baselining each account's normal logins.",
       "log": [
-        "4625 x8  jdoe from 192.168.1.22 in 14 seconds",
-        "alert IP 192.168.1.22 made 8 failed attempts within 60 seconds",
-        "alert User 'jdoe' made 8 failed attempts within 60 seconds"
+        "4625 x8  jdoe from 10.0.0.66 over RDP in 14 seconds",
+        "4624 jdoe from 10.0.0.66, 5m 56s later",
+        "4688 powershell.exe, cmd.exe, whoami.exe, net.exe",
+        "CRITICAL compromise chain  confidence=0.85  T1110 T1078 T1059"
       ],
       "stack": [
         "Python",
@@ -113,7 +116,7 @@ window.SITE = {
         "Detection engineering",
         "Event correlation"
       ],
-      "url": ""
+      "url": "https://github.com/paullydd/python-log-parser"
     },
     {
       "slug": "shipco",
