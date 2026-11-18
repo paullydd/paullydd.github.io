@@ -253,9 +253,9 @@ window.SITE = {
       },
       "origin": "",
       "decision": {
-        "title": "",
-        "choice": "",
-        "tradeoff": ""
+        "title": "Choosing a 60-second window",
+        "choice": "A sliding 60-second window per account and per source IP, raising one alert per burst instead of one per failed login. A real brute force packs many failures into seconds, while a user mistyping a password doesn't.",
+        "tradeoff": "A short window is blind to anything slower. A password spray stays under lockout limits and never bursts against one account, and steady guessing never bursts at all. So I added separate detectors for spraying (many accounts from one source) and for sustained and low-and-slow guessing over minutes and hours."
       }
     },
     {
@@ -362,9 +362,9 @@ window.SITE = {
       },
       "origin": "",
       "decision": {
-        "title": "",
-        "choice": "",
-        "tradeoff": ""
+        "title": "Choosing Isolation Forest",
+        "choice": "An unsupervised model, because I didn't have labeled attack traffic to train on. Isolation Forest learns what most flows look like and scores how unusual each one is, with no labels needed.",
+        "tradeoff": "It only finds flows that look unusual on their own. It caught the big upload and the long RDP session but missed the port scan and the brute force, because each probe looks like a normal short connection. It also flagged about 5% of normal traffic, and what counts as normal changes by network: retraining on a recent baseline capture cut false positives in live testing."
       }
     },
     {
