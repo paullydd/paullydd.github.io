@@ -1,9 +1,9 @@
-// All of the site's content lives here. Edit this file (or use the in-page editor:
-// add #edit to the address, or press Shift+E) and the page rebuilds from it.
+// All of the site's content lives here. Edit this file, or open the site with
+// #edit at the end of the address (or press Shift+E) to use the built-in editor.
 window.SITE = {
   "name": "Paul DeFrain",
-  "headline": "I investigate incidents and build the tools to catch them.",
-  "intro": "Cybersecurity analyst finishing a master's at Penn State. I build detection tooling, write up investigations, and spend my spare time making security tools I actually use.",
+  "headline": "I investigate incidents and build the tools that catch them.",
+  "intro": "I'm finishing a master's in Cybersecurity Analytics and Operations at Penn State. I build detection tools, test what they catch and what they miss, and write up investigations that end in fixes someone can act on.",
   "links": {
     "github": "https://github.com/paullydd",
     "linkedin": "https://www.linkedin.com/in/paul-defrain-a09310193/",
@@ -17,7 +17,7 @@ window.SITE = {
     },
     {
       "label": "Degree",
-      "value": "M.P.S., Cybersecurity Analytics & Operations, Penn State · 4.0 GPA"
+      "value": "M.P.S., Cybersecurity Analytics & Operations, Penn State, 4.0 GPA"
     },
     {
       "label": "Graduating",
@@ -82,7 +82,28 @@ window.SITE = {
         "Log analysis",
         "Git"
       ],
-      "url": ""
+      "url": "",
+      "featured": true,
+      "highlights": [
+        "Detection rules mapped to MITRE ATT&CK, each with a plain explanation of why it fired",
+        "Correlates single alerts into scored cases and reconstructs the full attack chain",
+        "A web workspace, terminal console and CLI all share one detection pipeline, backed by automated tests"
+      ],
+      "images": [
+        {
+          "src": "images/soc-forge-command-center.webp",
+          "caption": "The web workspace: cases, rule activity and the ATT&CK tactics behind them"
+        },
+        {
+          "src": "images/soc-forge-attack-chain.webp",
+          "caption": "Detection lab result for a simulated attack chain: 6 rules fired, 10 alerts, 5 cases"
+        },
+        {
+          "src": "images/soc-forge-rule-explainability.webp",
+          "caption": "Rule explainability: the logic, score modifiers and ATT&CK mapping behind an alert"
+        }
+      ],
+      "diagram": []
     },
     {
       "slug": "log-analyzer",
@@ -116,7 +137,20 @@ window.SITE = {
         "Detection engineering",
         "Event correlation"
       ],
-      "url": "https://github.com/paullydd/python-log-parser"
+      "url": "https://github.com/paullydd/python-log-parser",
+      "featured": true,
+      "highlights": [
+        "Ties a brute-force burst or password spray to the login and commands that follow, as one critical alert",
+        "Catches password spraying and low-and-slow guessing that never form a burst",
+        "Raises zero alerts on random noise, with tests that run on every push"
+      ],
+      "images": [
+        {
+          "src": "images/log-analyzer-report.webp",
+          "caption": "The HTML report: compromise chains, password spraying and brute force, each with the reasons behind its score"
+        }
+      ],
+      "diagram": []
     },
     {
       "slug": "ml-anomaly-ids",
@@ -158,14 +192,27 @@ window.SITE = {
         "Windows event logs",
         "pytest"
       ],
-      "url": "https://github.com/paullydd/ml-network-detection"
+      "url": "https://github.com/paullydd/ml-network-detection",
+      "featured": true,
+      "highlights": [
+        "An Isolation Forest scores every network flow and explains in plain words why it stands out",
+        "Ranked a hidden data upload as the most unusual of 916 flows in the test capture",
+        "Measured what it misses too: scans and brute force, which is where rule-based detection fits"
+      ],
+      "images": [
+        {
+          "src": "images/ml-ids-report.webp",
+          "caption": "Report from the test capture: the hidden upload to 203.0.113.50 ranks first"
+        }
+      ],
+      "diagram": []
     },
     {
       "slug": "shipco",
       "name": "Shipco Data Leak Investigation",
       "cat": "investigation",
       "kind": "Incident investigation",
-      "status": "closed",
+      "status": "completed",
       "one": "Reconstructed credential misuse and data exfiltration in a cyber range.",
       "lede": "A simulated enterprise data-leak investigation on the Penn State Cyber Range. I worked through the evidence to rebuild what the attacker did, from stolen credentials to data leaving the company through a look-alike domain.",
       "did": [
@@ -189,7 +236,21 @@ window.SITE = {
         "Log analysis",
         "Indicators of compromise"
       ],
-      "url": ""
+      "url": "",
+      "featured": true,
+      "highlights": [
+        "Rebuilt the attack from stolen credentials to data leaving through a look-alike domain",
+        "Worked across system logs, SSH activity, Bash history, web and mail-server evidence",
+        "Paired every gap with a control: MFA, privileged access management, SIEM alerting and DLP"
+      ],
+      "images": [],
+      "diagram": [
+        "Stolen credentials",
+        "Unauthorized file access",
+        "Privilege escalation",
+        "Email spoofing",
+        "Exfiltration to a look-alike domain"
+      ]
     },
     {
       "slug": "cyberdash",
@@ -211,14 +272,18 @@ window.SITE = {
         "Security monitoring",
         "Network traffic analysis"
       ],
-      "url": ""
+      "url": "",
+      "featured": false,
+      "highlights": [],
+      "images": [],
+      "diagram": []
     },
     {
       "slug": "memory-safety",
       "name": "Memory Safety Bug Discovery",
       "cat": "research",
       "kind": "Vulnerability analysis",
-      "status": "closed",
+      "status": "completed",
       "one": "Analyzed four C memory-safety vulnerabilities and their fixes.",
       "lede": "For IST 543, I found and analyzed four memory-safety bugs in C code, explained how each one could be exploited and worked out the fix.",
       "did": [
@@ -234,14 +299,18 @@ window.SITE = {
         "Secure coding",
         "Vulnerability analysis"
       ],
-      "url": ""
+      "url": "",
+      "featured": false,
+      "highlights": [],
+      "images": [],
+      "diagram": []
     },
     {
       "slug": "container-security",
       "name": "Container Security",
       "cat": "research",
       "kind": "Course project",
-      "status": "closed",
+      "status": "completed",
       "one": "Securing containers from image to cluster.",
       "lede": "A project on securing a container workload end to end, from the image and registry to the cluster it runs on and how you watch it.",
       "did": [
@@ -259,14 +328,18 @@ window.SITE = {
         "Cloud security",
         "Security monitoring"
       ],
-      "url": ""
+      "url": "",
+      "featured": false,
+      "highlights": [],
+      "images": [],
+      "diagram": []
     },
     {
       "slug": "cyber-range-rubric",
       "name": "Cyber Range Rubric",
       "cat": "research",
       "kind": "Evaluation framework",
-      "status": "closed",
+      "status": "completed",
       "one": "A 1 to 5 scoring framework for comparing cyber ranges.",
       "lede": "A scoring rubric for choosing a cyber range, the training platforms security teams practice on. It rates each range from 1 to 5 on the things that matter when you're buying one.",
       "did": [
@@ -280,7 +353,11 @@ window.SITE = {
         "Evaluation design",
         "Reporting"
       ],
-      "url": ""
+      "url": "",
+      "featured": false,
+      "highlights": [],
+      "images": [],
+      "diagram": []
     },
     {
       "slug": "cache-flow",
@@ -303,7 +380,11 @@ window.SITE = {
         "Least privilege",
         "Privacy by design"
       ],
-      "url": ""
+      "url": "",
+      "featured": false,
+      "highlights": [],
+      "images": [],
+      "diagram": []
     },
     {
       "slug": "bitebudget",
@@ -327,7 +408,11 @@ window.SITE = {
         "JavaScript",
         "Git"
       ],
-      "url": "https://github.com/paullydd/bitebudget"
+      "url": "https://github.com/paullydd/bitebudget",
+      "featured": false,
+      "highlights": [],
+      "images": [],
+      "diagram": []
     }
   ],
   "skills": [
@@ -410,21 +495,21 @@ window.SITE = {
     {
       "degree": "M.P.S., Cybersecurity Analytics & Operations",
       "school": "Penn State World Campus",
-      "note": "4.0 GPA · expected December 2026",
+      "note": "4.0 GPA, expected December 2026",
       "done": 30,
       "total": 33
     },
     {
       "degree": "Graduate Certificate, Information Systems Cybersecurity",
       "school": "Penn State World Campus",
-      "note": "4.0 GPA · awarded August 2025",
+      "note": "4.0 GPA, awarded August 2025",
       "done": 0,
       "total": 0
     },
     {
       "degree": "B.S., Business Administration (Management)",
       "school": "Kutztown University of Pennsylvania",
-      "note": "awarded December 2020",
+      "note": "Awarded December 2020",
       "done": 0,
       "total": 0
     },
@@ -436,12 +521,18 @@ window.SITE = {
       "total": 0
     }
   ],
-  "aside": {
-    "title": "Why business plus security",
-    "text": "My business background shapes how I write up findings. A good investigation ends with fixes someone can approve and fund, not just a list of what went wrong. The Shipco case is a good example: every gap I found came with a control and a reason it was worth the cost."
-  },
   "contact": {
     "title": "Hiring for a SOC or security analyst role?",
-    "text": "I'm happy to walk through any of these projects live."
+    "text": "I'm happy to walk through any of these projects live. Email is the fastest way to reach me."
+  },
+  "title": "Cybersecurity analyst",
+  "photo": "",
+  "about": {
+    "title": "About me",
+    "text": [
+      "I'm finishing an M.P.S. in Cybersecurity Analytics and Operations at Penn State World Campus, with a 4.0 GPA, and graduate in December 2026. Most of the projects here started as a question about how a detection really works and turned into a tool I could test against real attack patterns.",
+      "Before security I studied business management, and it still shapes how I work. A good investigation ends with fixes someone can approve and fund, not just a list of what went wrong. The Shipco case is a good example: every gap I found came with a control and a reason it was worth the cost.",
+      "I'm looking for SOC analyst, digital forensics, risk and IT security roles in the Lehigh Valley or remote."
+    ]
   }
 };
