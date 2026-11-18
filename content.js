@@ -3,7 +3,7 @@
 window.SITE = {
   "name": "Paul DeFrain",
   "headline": "I investigate incidents and build the tools that catch them.",
-  "intro": "I'm finishing a master's in Cybersecurity Analytics and Operations at Penn State. I build detection tools, test what they catch and what they miss, and write up investigations that end in fixes someone can act on.",
+  "intro": "Master's candidate at Penn State. I build detection tools, measure what they catch and miss, and write up investigations that end in fixes someone can act on.",
   "links": {
     "github": "https://github.com/paullydd",
     "linkedin": "https://www.linkedin.com/in/paul-defrain-a09310193/",
@@ -13,7 +13,7 @@ window.SITE = {
   "profile": [
     {
       "label": "Focus",
-      "value": "Security operations, detection engineering, digital forensics"
+      "value": "Detection and incident investigation"
     },
     {
       "label": "Works with",
@@ -29,7 +29,7 @@ window.SITE = {
     },
     {
       "label": "Open to",
-      "value": "SOC analyst, forensics, risk and IT security roles"
+      "value": "SOC and security analyst roles. Also interested in detection engineering and forensics"
     }
   ],
   "categories": [
@@ -82,12 +82,12 @@ window.SITE = {
         "Log analysis",
         "Git"
       ],
-      "url": "",
+      "url": "https://github.com/paullydd/soc-forge",
       "featured": true,
       "highlights": [
-        "Detection rules mapped to MITRE ATT&CK, each with a plain explanation of why it fired",
-        "Correlates single alerts into scored cases and reconstructs the full attack chain",
-        "A web workspace, terminal console and CLI all share one detection pipeline, backed by automated tests"
+        "30+ detection rules mapped to MITRE ATT&CK, each explained in plain language",
+        "Turns a simulated attack chain into correlated, critical cases with recommended actions",
+        "Over 1,000 automated tests behind one shared detection pipeline"
       ],
       "images": [
         {
@@ -104,7 +104,34 @@ window.SITE = {
         }
       ],
       "diagram": [],
-      "side": false
+      "side": false,
+      "results": [
+        {
+          "label": "Detection rules",
+          "value": "30+ YAML rules, each mapped to MITRE ATT&CK techniques"
+        },
+        {
+          "label": "Simulated attack chain",
+          "value": "14 alerts, 5 correlations and 1 threat-hunt finding. Top case: RDP logon followed by a scheduled task running encoded PowerShell, rated critical (see the sample report)"
+        },
+        {
+          "label": "Gaps it reports",
+          "value": "Flags what it didn't see, e.g. no execution observed before the persistence step"
+        },
+        {
+          "label": "Automated tests",
+          "value": "Over 1,000 test functions, run with pytest"
+        },
+        {
+          "label": "Not measured yet",
+          "value": "Catch rate on real CTF logs. That replay is the next step"
+        }
+      ],
+      "cover": "images/soc-forge-cover.webp",
+      "sample": {
+        "label": "Sample report",
+        "href": "samples/soc-forge-attack-chain-report.html"
+      }
     },
     {
       "slug": "log-analyzer",
@@ -120,8 +147,7 @@ window.SITE = {
         "Caught password spraying (many accounts, few tries each, under lockout limits) and low-and-slow guessing spread over hours, which never form a burst",
         "Correlated a burst or spray, a successful login from the same IP and the processes that followed into a critical compromise-chain alert mapped to MITRE ATT&CK (T1110, T1110.003, T1078, T1059)",
         "Scored each alert from the evidence and listed the reasons behind every score, so an analyst can see why it fired",
-        "Produced an escaped HTML report plus JSON and CSV export, with command-line filters and tunable thresholds",
-        "Validated it on labeled attack scenarios and on random noise, where it raises zero alerts, with tests that run on every push"
+        "Produced an escaped HTML report plus JSON and CSV export, with command-line filters and tunable thresholds"
       ],
       "findings": [],
       "next": "Catching attacks spread across many source IPs, then baselining each account's normal logins.",
@@ -141,9 +167,9 @@ window.SITE = {
       "url": "https://github.com/paullydd/python-log-parser",
       "featured": true,
       "highlights": [
-        "Ties a brute-force burst or password spray to the login and commands that follow, as one critical alert",
-        "Catches password spraying and low-and-slow guessing that never form a burst",
-        "Raises zero alerts on random noise, with tests that run on every push"
+        "Zero alerts on 1,000 rows of random login noise across 93 IPs",
+        "Raised exactly the 11 expected alerts on labeled attack scenarios",
+        "Found a real Kerberos password spray, and the account that fell to it, in public attack logs"
       ],
       "images": [
         {
@@ -152,7 +178,34 @@ window.SITE = {
         }
       ],
       "diagram": [],
-      "side": false
+      "side": false,
+      "results": [
+        {
+          "label": "Noise test",
+          "value": "1,000 rows of random logins across 93 IPs: 0 alerts"
+        },
+        {
+          "label": "Labeled scenarios",
+          "value": "RDP brute force with compromise, password spray with compromise, brute force then success, low-and-slow guessing, a failed burst: all 11 expected alerts, no extras"
+        },
+        {
+          "label": "Real attack logs",
+          "value": "Kerberos password spray from EVTX-ATTACK-SAMPLES (11 accounts, 4 nonexistent): spray and compromised account both found"
+        },
+        {
+          "label": "Tests",
+          "value": "Unit tests for every scenario, input format and edge case, run by GitHub Actions on every push"
+        },
+        {
+          "label": "Known gap",
+          "value": "Attacks spread across many source IPs"
+        }
+      ],
+      "cover": "images/log-analyzer-cover.webp",
+      "sample": {
+        "label": "",
+        "href": ""
+      }
     },
     {
       "slug": "ml-anomaly-ids",
@@ -197,9 +250,9 @@ window.SITE = {
       "url": "https://github.com/paullydd/ml-network-detection",
       "featured": true,
       "highlights": [
-        "An Isolation Forest scores every network flow and explains in plain words why it stands out",
-        "Ranked a hidden data upload as the most unusual of 916 flows in the test capture",
-        "Measured what it misses too: scans and brute force, which is where rule-based detection fits"
+        "Ranked a hidden data upload first out of 916 network flows",
+        "Missed the port scan and the brute force, and the write-up explains why",
+        "Flagged about 5% of normal traffic, mostly large file transfers"
       ],
       "images": [
         {
@@ -208,7 +261,38 @@ window.SITE = {
         }
       ],
       "diagram": [],
-      "side": false
+      "side": false,
+      "results": [
+        {
+          "label": "Test data",
+          "value": "Synthetic capture: about 10,000 packets, 916 flows from 17 workstations, with an attack lined up with sample Windows logs"
+        },
+        {
+          "label": "Exfiltration upload",
+          "value": "2 of 2 flows flagged, top score"
+        },
+        {
+          "label": "RDP session after brute force",
+          "value": "2 of 2 flows flagged"
+        },
+        {
+          "label": "RDP brute-force attempts",
+          "value": "0 of 16 flagged (missed)"
+        },
+        {
+          "label": "Port scan",
+          "value": "0 of 100 single-packet flows flagged (missed)"
+        },
+        {
+          "label": "False positives",
+          "value": "42 of 786 normal flows (5.3%), mostly large file transfers"
+        }
+      ],
+      "cover": "images/ml-ids-cover.webp",
+      "sample": {
+        "label": "",
+        "href": ""
+      }
     },
     {
       "slug": "shipco",
@@ -254,7 +338,13 @@ window.SITE = {
         "Email spoofing",
         "Exfiltration to a look-alike domain"
       ],
-      "side": false
+      "side": false,
+      "results": [],
+      "cover": "",
+      "sample": {
+        "label": "",
+        "href": ""
+      }
     },
     {
       "slug": "cyberdash",
@@ -281,7 +371,13 @@ window.SITE = {
       "highlights": [],
       "images": [],
       "diagram": [],
-      "side": false
+      "side": false,
+      "results": [],
+      "cover": "",
+      "sample": {
+        "label": "",
+        "href": ""
+      }
     },
     {
       "slug": "memory-safety",
@@ -309,7 +405,13 @@ window.SITE = {
       "highlights": [],
       "images": [],
       "diagram": [],
-      "side": false
+      "side": false,
+      "results": [],
+      "cover": "",
+      "sample": {
+        "label": "",
+        "href": ""
+      }
     },
     {
       "slug": "container-security",
@@ -339,7 +441,13 @@ window.SITE = {
       "highlights": [],
       "images": [],
       "diagram": [],
-      "side": false
+      "side": false,
+      "results": [],
+      "cover": "",
+      "sample": {
+        "label": "",
+        "href": ""
+      }
     },
     {
       "slug": "cyber-range-rubric",
@@ -365,7 +473,13 @@ window.SITE = {
       "highlights": [],
       "images": [],
       "diagram": [],
-      "side": false
+      "side": false,
+      "results": [],
+      "cover": "",
+      "sample": {
+        "label": "",
+        "href": ""
+      }
     },
     {
       "slug": "cache-flow",
@@ -393,7 +507,13 @@ window.SITE = {
       "highlights": [],
       "images": [],
       "diagram": [],
-      "side": true
+      "side": true,
+      "results": [],
+      "cover": "",
+      "sample": {
+        "label": "",
+        "href": ""
+      }
     },
     {
       "slug": "bitebudget",
@@ -422,7 +542,13 @@ window.SITE = {
       "highlights": [],
       "images": [],
       "diagram": [],
-      "side": true
+      "side": true,
+      "results": [],
+      "cover": "",
+      "sample": {
+        "label": "",
+        "href": ""
+      }
     }
   ],
   "skills": [
@@ -599,5 +725,6 @@ window.SITE = {
       "minutes": 112,
       "file": "certificates/cloud-data-security.pdf"
     }
-  ]
+  ],
+  "availability": "Open to SOC analyst roles, graduating December 2026"
 };

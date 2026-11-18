@@ -24,7 +24,7 @@
 <style>
 :root{
   --bg:#1B1F23; --panel:#21262C; --panel-2:#272D34; --line:#323941; --line-2:#3C444D;
-  --text:#E6E9EC; --muted:#9AA3AD; --dim:#6E7781;
+  --text:#E6E9EC; --muted:#AEB6BF; --dim:#8D96A0;
   --accent:#8FCDAA; --accent-ink:#13261C; --amber:#E0B25E; --danger:#E08A7E;
   --sans:"Schibsted Grotesk",system-ui,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,monospace;
@@ -175,6 +175,7 @@ h2{font-size:clamp(30px,3.4vw,40px);line-height:1.1;letter-spacing:-.025em;margi
 .contact{display:flex;justify-content:space-between;align-items:end;gap:40px;flex-wrap:wrap}
 .contact h2{max-width:18ch}
 .contact p{color:var(--muted);margin:14px 0 0;max-width:46ch}
+.email-line{font:400 15px var(--mono);color:var(--text)!important;margin-top:10px!important}
 .copied{font-size:14px;color:var(--accent);min-width:1em}
 footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--dim);font-size:14px}
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
@@ -210,6 +211,12 @@ footer a{color:var(--muted)}
 .side > div:last-child{margin-bottom:0}
 .side .tags{margin:0}
 .side .btn{width:100%;justify-content:center}
+.side-links{display:grid;gap:10px}
+.results{margin:0;border-top:1px solid var(--line)}
+.results div{display:grid;grid-template-columns:210px 1fr;gap:20px;padding:12px 0;border-bottom:1px solid var(--line)}
+.results dt{color:var(--muted);font-size:15px}
+.results dd{margin:0;font-size:16px}
+@media (max-width:640px){.results div{grid-template-columns:1fr;gap:2px}}
 .pager{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px;padding-top:32px;border-top:1px solid var(--line)}
 .pager a{display:block;text-decoration:none;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
 .pager a:hover{border-color:var(--line-2);background:var(--panel)}
@@ -282,7 +289,13 @@ dialog.lightbox .close{position:absolute;top:-44px;right:0}
 @media (max-width:640px){
   body{font-size:16px}
   .wrap{padding:0 20px}
-  .nav a:not(.btn){display:none}
+  .nav{gap:18px}
+  .nav a:not(.btn):not(.keep){display:none}
+  .brand #siteName{display:none}
+  .glance dl{display:none}
+  .glance{padding-top:20px}
+  .hero{padding:48px 0 40px;gap:28px}
+  .hero .intro{font-size:16.5px;margin-bottom:24px}
   section.block{padding:72px 0}
   .grid,.skills,.edu,.gallery.two,.side-list{grid-template-columns:1fr}
   .side-item{flex-direction:column;gap:2px}
@@ -312,11 +325,11 @@ dialog.lightbox .close{position:absolute;top:-44px;right:0}
   <div class="wrap">
     <a class="brand" href="#top" id="brand"><span class="mono" id="monogram" aria-hidden="true"></span><span id="siteName"></span></a>
     <nav class="nav" aria-label="Main">
-      <a href="#work">Work</a>
+      <a href="#work" class="keep">Work</a>
       <a href="#about">About</a>
       <a href="#skills">Skills</a>
       <a href="#education">Education</a>
-      <a href="#contact">Contact</a>
+      <a href="#contact" class="keep">Contact</a>
       <a class="btn small" id="navResume" href="resume.pdf">Resume</a>
     </nav>
   </div>
@@ -366,12 +379,13 @@ dialog.lightbox .close{position:absolute;top:-44px;right:0}
       <div id="trainingWrap">
         <div class="train-head"><h3 id="train-h">Training</h3><p id="trainSummary"></p></div>
         <ul class="train" id="training" aria-labelledby="train-h"></ul>
+        <button class="linkish" id="trainToggle" style="margin-top:14px" aria-controls="training"></button>
       </div>
     </section>
 
     <section class="block" id="contact" aria-labelledby="contact-h">
       <div class="contact">
-        <div><h2 id="contact-h"></h2><p id="contactText"></p></div>
+        <div><h2 id="contact-h"></h2><p id="contactText"></p><p class="email-line" id="emailLine"></p></div>
         <div class="cta" id="contactCta"></div>
       </div>
     </section>
@@ -425,7 +439,7 @@ const SECTIONS = ["top","work","more","about","skills","education","contact"];
 const ORIGINAL = clone(window.SITE || {cases:[]});
 let SITE = clone(ORIGINAL), hasDraft = false;
 try{ const d = localStorage.getItem(DRAFT_KEY); if(d){ SITE = JSON.parse(d); hasDraft = true; } }catch(e){}
-let openSkill = null;
+let openSkill = null, trainingOpen = false;
 
 const st = c => STATUS[c.status] || STATUS.active;
 const statusChip = c => `<span class="status" style="--c:${st(c).c}">${st(c).label}</span>`;
@@ -459,7 +473,7 @@ function renderHome(){
 
   // featured
   $("featured").innerHTML = featured().map(c=>{
-    const img = (c.images||[]).find(i=>safeSrc(i.src));
+    const img = safeSrc(c.cover) ? {src:c.cover, caption:(c.images||[])[0]?.caption||c.name} : (c.images||[]).find(i=>safeSrc(i.src));
     let visual = "";
     if(img) visual = `<button class="visual" data-open="${esc(c.slug)}" aria-label="Open the ${esc(c.name)} case study"><img src="${esc(img.src)}" alt="${esc(img.caption||c.name)}" loading="lazy" width="1600" height="1000"></button>`;
     else if(list(c.diagram).length) visual = `<button class="visual" data-open="${esc(c.slug)}" aria-label="Open the ${esc(c.name)} case study">${pathDiagram(c)}</button>`;
@@ -471,7 +485,7 @@ function renderHome(){
         <p class="one">${esc(c.one)}</p>
         <ul class="hl">${hl.map(h=>`<li>${esc(h)}</li>`).join("")}</ul>
         <ul class="tags">${(c.stack||[]).slice(0,4).map(s=>`<li>${esc(s)}</li>`).join("")}</ul>
-        <div class="actions"><a class="btn primary" href="#${esc(c.slug)}">Read the case study</a>${safeUrl(c.url)?`<a class="btn" href="${esc(c.url)}">${ICON.gh}Code</a>`:""}</div>
+        <div class="actions"><a class="btn primary" href="#${esc(c.slug)}">Read the case study</a>${safeUrl(c.url)?`<a class="btn" href="${esc(c.url)}">${ICON.gh}Code</a>`:""}${safeUrl(c.sample?.href)?`<a class="btn" href="${esc(c.sample.href)}">${ICON.doc}${esc(c.sample.label||"Sample output")}</a>`:""}</div>
       </div></article>`;
   }).join("");
 
@@ -515,7 +529,11 @@ function renderHome(){
   const mins = tr.reduce((n,t)=>n+(+t.minutes||0),0);
   const providers = [...new Set(tr.map(t=>t.provider).filter(Boolean))];
   $("trainSummary").textContent = tr.length ? `${tr.length} course certificate${tr.length>1?"s":""}${providers.length?` from ${providers.join(", ")}`:""}${mins?`, about ${Math.round(mins/60)} hours`:""}` : "";
-  $("training").innerHTML = tr.map(t=>{
+  const shown = trainingOpen ? tr : tr.slice(0,3);
+  $("trainToggle").hidden = tr.length<=3;
+  $("trainToggle").textContent = trainingOpen ? "Show fewer" : `Show all ${tr.length} courses`;
+  $("trainToggle").setAttribute("aria-expanded", trainingOpen);
+  $("training").innerHTML = shown.map(t=>{
     const d = /^\d{4}-\d{2}-\d{2}$/.test(t.date||"") ? new Date(t.date+"T12:00:00").toLocaleDateString("en-US",{month:"short",year:"numeric"}) : (t.date||"");
     const f = safeUrl(t.file);
     return `<li><span class="t">${esc(t.title)}</span><span class="topic">${esc(t.topic)}</span><span class="when">${esc(d)}</span>${f?`<a href="${esc(f)}">Certificate</a>`:"<span></span>"}</li>`;
@@ -525,10 +543,11 @@ function renderHome(){
   $("contact-h").textContent = SITE.contact?.title||"";
   $("contactText").textContent = SITE.contact?.text||"";
   let cc = "";
-  if(L.email) cc += `<button class="btn primary" id="copyEmail" data-email="${esc(L.email)}">${ICON.mail}${esc(L.email)}</button><span class="copied" id="emailMsg" aria-live="polite"></span>`;
+  if(L.email) cc += `<a class="btn primary" href="mailto:${esc(L.email)}">${ICON.mail}Email me</a><button class="btn" id="copyEmail" data-email="${esc(L.email)}">Copy email</button><span class="copied" id="emailMsg" aria-live="polite"></span>`;
   if(safeUrl(L.linkedin)) cc += `<a class="btn" href="${esc(L.linkedin)}">${ICON.in}LinkedIn</a>`;
   if(safeUrl(L.github)) cc += `<a class="btn" href="${esc(L.github)}">${ICON.gh}GitHub</a>`;
   $("contactCta").innerHTML = cc;
+  $("emailLine").textContent = L.email || "";
   $("foot").textContent = `© ${new Date().getFullYear()} ${SITE.name}`;
   $("footLinks").innerHTML = [res&&`<a href="${esc(res)}">Resume</a>`, safeUrl(L.linkedin)&&`<a href="${esc(L.linkedin)}">LinkedIn</a>`, safeUrl(L.github)&&`<a href="${esc(L.github)}">GitHub</a>`].filter(Boolean).join(" &nbsp; ");
   $("draftBar").classList.toggle("on", hasDraft);
@@ -559,15 +578,15 @@ function renderProject(slug){
     ${gallery}
     <div class="p-body">
       <div>
+        ${(c.results||[]).filter(r=>r.label||r.value).length ? `<section><h2>Testing and results</h2><dl class="results">${c.results.filter(r=>r.label||r.value).map(r=>`<div><dt>${esc(r.label)}</dt><dd>${esc(r.value)}</dd></div>`).join("")}</dl></section>` : ""}
         ${sec("What I did", c.did)}
         ${sec("Findings and results", c.findings)}
         ${c.next ? `<section><h2>What's next</h2><p>${esc(c.next)}</p></section>` : ""}
         ${log.length ? `<section><h2>How it runs</h2><div class="code">${log.map(l=>{const m=String(l).trim().match(/^(\S+)\s*(.*)$/)||["","",""];return `<span class="k">${esc(m[1])}</span>  ${esc(m[2])}`}).join("\n")}</div></section>` : ""}
       </div>
       <aside class="side" aria-label="Project details">
-        ${list(c.highlights).length?`<div><h3>At a glance</h3><ul class="hl" style="margin:0">${list(c.highlights).map(h=>`<li style="font-size:15px">${esc(h)}</li>`).join("")}</ul></div>`:""}
         ${(c.stack||[]).length?`<div><h3>Tools and skills</h3><ul class="tags">${c.stack.map(s=>`<li>${esc(s)}</li>`).join("")}</ul></div>`:""}
-        ${safeUrl(c.url)?`<div><a class="btn primary" href="${esc(c.url)}">${ICON.gh}View the code</a></div>`:""}
+        ${(safeUrl(c.url)||safeUrl(c.sample?.href))?`<div class="side-links">${safeUrl(c.url)?`<a class="btn primary" href="${esc(c.url)}">${ICON.gh}View the code</a>`:""}${safeUrl(c.sample?.href)?`<a class="btn" href="${esc(c.sample.href)}">${ICON.doc}${esc(c.sample.label||"Sample output")}</a>`:""}</div>`:""}
       </aside>
     </div>
     <nav class="pager" aria-label="More projects">
@@ -620,6 +639,7 @@ document.addEventListener("click", e=>{
     $("lbImg").src = im.src; $("lbImg").alt = im.caption||c.name; $("lbCap").textContent = im.caption||"";
     $("lightbox").showModal(); return;
   }
+  if(t.id==="trainToggle"){ trainingOpen = !trainingOpen; renderHome(); $("trainToggle").focus(); return; }
   if(t.id==="copyEmail"){
     const em = t.dataset.email;
     copy(em).then(ok=>{ $("emailMsg").textContent = ok ? "Copied" : ""; setTimeout(()=>{ const m=$("emailMsg"); if(m) m.textContent=""; },2200); });
@@ -671,6 +691,7 @@ function fld(label, path, type, opts){
   if(type==="textarea") input = `<textarea id="${id}" data-path="${path}" rows="${opts.rows||3}">${esc(val)}</textarea>`;
   else if(type==="lines") input = `<textarea id="${id}" data-path="${path}" data-kind="lines" rows="${opts.rows||4}">${esc((val||[]).join("\n"))}</textarea>`;
   else if(type==="paras") input = `<textarea id="${id}" data-path="${path}" data-kind="paras" rows="${opts.rows||8}">${esc((val||[]).join("\n\n"))}</textarea>`;
+  else if(type==="pairs") input = `<textarea id="${id}" data-path="${path}" data-kind="pairs" rows="${opts.rows||4}">${esc((val||[]).map(r=>`${r.label} | ${r.value}`).join("\n"))}</textarea>`;
   else if(type==="images") input = `<textarea id="${id}" data-path="${path}" data-kind="images" rows="${opts.rows||3}">${esc((val||[]).map(i=>i.caption?`${i.src} | ${i.caption}`:i.src).join("\n"))}</textarea>`;
   else if(type==="list") input = `<input id="${id}" data-path="${path}" data-kind="list" value="${esc((val||[]).join(", "))}">`;
   else if(type==="select") input = `<select id="${id}" data-path="${path}">${opts.options.map(o=>`<option value="${esc(o[0])}" ${o[0]===val?"selected":""}>${esc(o[1])}</option>`).join("")}</select>`;
@@ -712,6 +733,9 @@ function renderEditor(){
       h += fld("One-line summary",`${p}.one`,"text");
       h += fld("Highlights",`${p}.highlights`,"lines",{rows:3,help:"Up to three short points, one per line. Shown on the home page for featured projects."});
       h += fld("Overview",`${p}.lede`,"textarea",{rows:4});
+      h += fld("Testing and results",`${p}.results`,"pairs",{rows:5,help:"One per line: label | result. Shown first on the case study."});
+      h += fld("Cover image",`${p}.cover`,"text",{ph:"images/cover.webp",help:"Optional focused crop for the home page. Falls back to the first screenshot."});
+      h += `<div class="row">${fld("Sample output link",`${p}.sample.href`,"text",{ph:"samples/report.html"})}${fld("Sample link text",`${p}.sample.label`,"text",{ph:"Sample report"})}</div>`;
       h += fld("Screenshots",`${p}.images`,"images",{rows:3,help:"One per line: images/file.webp | caption. Put the files in the images folder."});
       h += fld("Attack path",`${p}.diagram`,"lines",{rows:4,help:"Optional, one step per line. Shown when there are no screenshots."});
       h += fld("What I did",`${p}.did`,"lines",{rows:6,help:"One point per line."});
@@ -761,6 +785,7 @@ edBody.addEventListener("input", e=>{
   if(k==="lines") v = v.split("\n").map(s=>s.trim()).filter(Boolean);
   if(k==="paras") v = v.split(/\n\s*\n/).map(s=>s.replace(/\s*\n\s*/g," ").trim()).filter(Boolean);
   if(k==="images") v = v.split("\n").map(s=>s.trim()).filter(Boolean).map(l=>{ const [src,...cap]=l.split("|"); return {src:src.trim(), caption:cap.join("|").trim()}; });
+  if(k==="pairs") v = v.split("\n").map(s=>s.trim()).filter(Boolean).map(l=>{ const [a,...b]=l.split("|"); return {label:a.trim(), value:b.join("|").trim()}; });
   if(k==="list") v = v.split(",").map(s=>s.trim()).filter(Boolean);
   if(k==="number") v = Math.max(0, parseInt(v,10)||0);
   if(k==="check") v = el.checked;
@@ -775,7 +800,7 @@ edBody.addEventListener("change", e=>{
 });
 const BLANK = {
   profile: ()=>({label:"Label",value:""}),
-  cases: ()=>({slug:uniqueSlug("new-project",-1),name:"New project",cat:"tool",kind:"",status:"active",featured:false,side:false,one:"",highlights:[],lede:"",images:[],diagram:[],did:[],findings:[],next:"",log:[],stack:[],url:""}),
+  cases: ()=>({slug:uniqueSlug("new-project",-1),name:"New project",cat:"tool",kind:"",status:"active",featured:false,side:false,cover:"",sample:{label:"",href:""},results:[],one:"",highlights:[],lede:"",images:[],diagram:[],did:[],findings:[],next:"",log:[],stack:[],url:""}),
   skills: ()=>({title:"New group",items:[]}),
   education: ()=>({degree:"",school:"",note:"",done:0,total:0}),
   training: ()=>({title:"",provider:"",topic:"",date:"",minutes:0,file:""})
