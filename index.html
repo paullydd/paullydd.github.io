@@ -415,9 +415,19 @@ dialog.lightbox .close{position:absolute;top:-44px;right:0}
   <div class="ed-foot"><span id="edSaved">Edits are saved in this browser.</span><button class="linkish" id="edExportJump" style="font-size:13px">Publish changes</button></div>
 </aside>
 
-<script src="content.js"></script>
 <script>
+// Load content.js fresh on every visit so content edits show up right away,
+// instead of a cached copy left over from an earlier visit.
 (function(){
+  var s = document.createElement("script");
+  s.src = "content.js?v=" + Date.now();
+  s.onload = function(){ window.__startSite(); };
+  s.onerror = function(){ document.getElementById("name").textContent = "Content failed to load. Refresh the page."; };
+  document.head.appendChild(s);
+})();
+</script>
+<script>
+window.__startSite = function(){
 "use strict";
 const DRAFT_KEY = "portfolio-draft-v2";
 const STATUS = {active:{label:"In progress",c:"var(--amber)"}, shipped:{label:"Shipped",c:"var(--accent)"}, completed:{label:"Completed",c:"var(--accent)"}, closed:{label:"Completed",c:"var(--accent)"}};
@@ -827,7 +837,7 @@ edBody.addEventListener("click", async e=>{
 /* ---------------- boot ---------------- */
 renderHome();
 route();
-})();
+};
 </script>
 </body>
 </html>
