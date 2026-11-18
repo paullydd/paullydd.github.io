@@ -537,6 +537,14 @@ window.SITE = {
   },
   "training": [
     {
+      "title": "Git Fundamentals",
+      "provider": "GitMastery",
+      "topic": "Developer tools",
+      "date": "2026-11-17",
+      "minutes": 0,
+      "file": "certificates/git-fundamentals.pdf"
+    },
+    {
       "title": "Cybersecurity senior management and information security governance (ISG)",
       "provider": "Infosec",
       "topic": "Governance",
