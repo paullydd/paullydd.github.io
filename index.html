@@ -151,6 +151,18 @@ h2{font-size:clamp(30px,3.4vw,40px);line-height:1.1;letter-spacing:-.025em;margi
 .progress i{display:block;height:100%;background:var(--accent)}
 .prog-label{font-size:13.5px;color:var(--dim);margin-top:6px}
 
+/* training */
+#trainingWrap{margin-top:56px}
+.train-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+.train-head h3{font-size:22px;letter-spacing:-.01em;margin:0}
+.train-head p{margin:0;color:var(--muted);font-size:15px}
+.train{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.train li{display:grid;grid-template-columns:1fr 150px 120px 110px;gap:20px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line);font-size:15.5px}
+.train .t{font-weight:500}
+.train .topic,.train .when{color:var(--muted);font-size:14.5px}
+.train a{color:var(--accent);font-size:14.5px;text-align:right;text-underline-offset:3px}
+@media (max-width:760px){.train li{grid-template-columns:1fr auto;gap:2px 16px}.train .t{grid-column:1/-1}.train a{grid-row:2;grid-column:2}}
+
 /* contact */
 .contact{display:flex;justify-content:space-between;align-items:end;gap:40px;flex-wrap:wrap}
 .contact h2{max-width:18ch}
@@ -339,8 +351,12 @@ dialog.lightbox .close{position:absolute;top:-44px;right:0}
     </section>
 
     <section class="block" id="education" aria-labelledby="edu-h">
-      <div class="sec-head"><div><h2 id="edu-h">Education</h2></div></div>
+      <div class="sec-head"><div><h2 id="edu-h">Education and training</h2></div></div>
       <ol class="edu" id="edu"></ol>
+      <div id="trainingWrap">
+        <div class="train-head"><h3 id="train-h">Training</h3><p id="trainSummary"></p></div>
+        <ul class="train" id="training" aria-labelledby="train-h"></ul>
+      </div>
     </section>
 
     <section class="block" id="contact" aria-labelledby="contact-h">
@@ -480,6 +496,18 @@ function renderHome(){
       ${e.total>0&&pct<100?`<div class="progress" role="img" aria-label="${e.done} of ${e.total} credits complete"><i style="width:${pct}%"></i></div><div class="prog-label">${e.done} of ${e.total} credits complete</div>`:""}</li>`;
   }).join("");
 
+  // training
+  const tr = (SITE.training||[]).slice().sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+  $("trainingWrap").hidden = !tr.length;
+  const mins = tr.reduce((n,t)=>n+(+t.minutes||0),0);
+  const providers = [...new Set(tr.map(t=>t.provider).filter(Boolean))];
+  $("trainSummary").textContent = tr.length ? `${tr.length} course certificate${tr.length>1?"s":""}${providers.length?` from ${providers.join(", ")}`:""}${mins?`, about ${Math.round(mins/60)} hours`:""}` : "";
+  $("training").innerHTML = tr.map(t=>{
+    const d = /^\d{4}-\d{2}-\d{2}$/.test(t.date||"") ? new Date(t.date+"T12:00:00").toLocaleDateString("en-US",{month:"short",year:"numeric"}) : (t.date||"");
+    const f = safeUrl(t.file);
+    return `<li><span class="t">${esc(t.title)}</span><span class="topic">${esc(t.topic)}</span><span class="when">${esc(d)}</span>${f?`<a href="${esc(f)}">Certificate</a>`:"<span></span>"}</li>`;
+  }).join("");
+
   // contact
   $("contact-h").textContent = SITE.contact?.title||"";
   $("contactText").textContent = SITE.contact?.text||"";
@@ -599,7 +627,7 @@ document.addEventListener("keydown", e=>{
 /* ---------------- editor (owner tool: Shift+E or #edit) ---------------- */
 const editor = $("editor"), edBody = $("edBody");
 let tab = "basics", edCase = 0, saveT;
-const TABS = [["basics","Basics"],["cases","Projects"],["about","About and contact"],["skills","Skills"],["education","Education"],["publish","Publish"]];
+const TABS = [["basics","Basics"],["cases","Projects"],["about","About and contact"],["skills","Skills"],["education","Education"],["training","Training"],["publish","Publish"]];
 const editorOpen = () => editor.classList.contains("open");
 function openEditor(){ editor.classList.add("open"); editor.setAttribute("aria-hidden","false"); $("scrim").classList.add("on"); renderEditor(); setTimeout(()=>$("edClose").focus(),50); }
 function closeEditor(){ editor.classList.remove("open"); editor.setAttribute("aria-hidden","true"); $("scrim").classList.remove("on"); if(location.hash==="#edit") try{history.replaceState(null,"",location.pathname)}catch(e){} }
@@ -694,6 +722,11 @@ function renderEditor(){
     (SITE.education||[]).forEach((e,i,a)=>{ h += `<div class="group">${groupHead(e.degree||"Entry","education",i,a.length)}${fld("Degree",`education.${i}.degree`,"text")}${fld("School",`education.${i}.school`,"text")}${fld("Note",`education.${i}.note`,"text")}<div class="row">${fld("Credits done",`education.${i}.done`,"number")}${fld("Credits total",`education.${i}.total`,"number",{help:"0 hides the bar."})}</div></div>`; });
     h += `<button class="btn small" data-act="add" data-kind="education">Add an entry</button>`;
   }
+  if(tab==="training"){
+    h += `<p style="margin:0 0 14px;font-size:14px;color:var(--dim)">Sorted newest first on the page. Put certificate PDFs in the certificates folder.</p>`;
+    (SITE.training||[]).forEach((t,i,a)=>{ h += `<div class="group">${groupHead(t.title||"Course","training",i,a.length)}${fld("Course",`training.${i}.title`,"text")}<div class="row">${fld("Provider",`training.${i}.provider`,"text")}${fld("Topic",`training.${i}.topic`,"text")}</div><div class="row">${fld("Completed",`training.${i}.date`,"text",{ph:"2026-08-03"})}${fld("Minutes",`training.${i}.minutes`,"number")}</div>${fld("Certificate file",`training.${i}.file`,"text",{ph:"certificates/name.pdf"})}</div>`; });
+    h += `<button class="btn small" data-act="add" data-kind="training">Add a course</button>`;
+  }
   if(tab==="publish"){
     h += `<p style="margin:0 0 14px;font-size:15px">Edits live in this browser until you put them into <code style="font-family:var(--mono)">content.js</code>.</p>
       <ol class="steps"><li>Select <b>Download content.js</b> (or Copy).</li><li>Replace <code>content.js</code> in your site folder.</li><li>Commit and push. The live site updates in a minute or two.</li><li>Come back and select <b>Discard edits</b>.</li></ol>
@@ -730,7 +763,8 @@ const BLANK = {
   profile: ()=>({label:"Label",value:""}),
   cases: ()=>({slug:uniqueSlug("new-project",-1),name:"New project",cat:"tool",kind:"",status:"active",featured:false,one:"",highlights:[],lede:"",images:[],diagram:[],did:[],findings:[],next:"",log:[],stack:[],url:""}),
   skills: ()=>({title:"New group",items:[]}),
-  education: ()=>({degree:"",school:"",note:"",done:0,total:0})
+  education: ()=>({degree:"",school:"",note:"",done:0,total:0}),
+  training: ()=>({title:"",provider:"",topic:"",date:"",minutes:0,file:""})
 };
 edBody.addEventListener("click", async e=>{
   const b = e.target.closest("[data-act]"); if(!b) return;

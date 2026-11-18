@@ -534,5 +534,71 @@ window.SITE = {
       "Before security I studied business management, and it still shapes how I work. A good investigation ends with fixes someone can approve and fund, not just a list of what went wrong. The Shipco case is a good example: every gap I found came with a control and a reason it was worth the cost.",
       "I'm looking for SOC analyst, digital forensics, risk and IT security roles in the Lehigh Valley or remote."
     ]
-  }
+  },
+  "training": [
+    {
+      "title": "Cybersecurity senior management and information security governance (ISG)",
+      "provider": "Infosec",
+      "topic": "Governance",
+      "date": "2026-08-03",
+      "minutes": 76,
+      "file": "certificates/security-governance-isg.pdf"
+    },
+    {
+      "title": "Digital Evidence and Legal Issues",
+      "provider": "Infosec",
+      "topic": "Forensics",
+      "date": "2026-07-26",
+      "minutes": 112,
+      "file": "certificates/digital-evidence-and-legal-issues.pdf"
+    },
+    {
+      "title": "Recon and footprinting",
+      "provider": "Infosec",
+      "topic": "Offensive security",
+      "date": "2026-06-27",
+      "minutes": 34,
+      "file": "certificates/recon-and-footprinting.pdf"
+    },
+    {
+      "title": "Container security",
+      "provider": "Infosec",
+      "topic": "Containers",
+      "date": "2025-10-12",
+      "minutes": 50,
+      "file": "certificates/container-security.pdf"
+    },
+    {
+      "title": "Introduction and Overview of Containers",
+      "provider": "Infosec",
+      "topic": "Containers",
+      "date": "2025-10-12",
+      "minutes": 57,
+      "file": "certificates/intro-to-containers.pdf"
+    },
+    {
+      "title": "Designing for Security",
+      "provider": "Infosec",
+      "topic": "Secure design",
+      "date": "2025-10-12",
+      "minutes": 38,
+      "file": "certificates/designing-for-security.pdf"
+    },
+    {
+      "title": "Domain 3: Cloud platform and infrastructure security",
+      "provider": "Infosec",
+      "topic": "Cloud security",
+      "date": "2025-09-15",
+      "minutes": 119,
+      "file": "certificates/cloud-platform-infrastructure-security.pdf"
+    },
+    {
+      "title": "Domain 2: Cloud data security",
+      "provider": "Infosec",
+      "topic": "Cloud security",
+      "date": "2025-09-14",
+      "minutes": 112,
+      "file": "certificates/cloud-data-security.pdf"
+    }
+  ]
 };
