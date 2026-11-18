@@ -126,9 +126,17 @@ h2{font-size:clamp(30px,3.4vw,40px);line-height:1.1;letter-spacing:-.025em;margi
 .card .tags{margin:0}
 .card .tags li{font-size:12.5px}
 
+.side-h{font-size:16px;font-weight:600;color:var(--muted);margin:44px 0 12px}
+.side-list{display:grid;grid-template-columns:1fr 1fr;gap:0 32px;border-top:1px solid var(--line)}
+.side-item{display:flex;gap:14px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--line);text-decoration:none;font-size:15.5px}
+.side-item strong{font-weight:600;white-space:nowrap}
+.side-item span{color:var(--muted)}
+.side-item:hover strong{text-decoration:underline;text-underline-offset:3px}
+
 /* about */
-.about{display:grid;grid-template-columns:.8fr 1.2fr;gap:64px}
-.about.has-photo{grid-template-columns:260px 1fr;align-items:start}
+.about{display:block;max-width:760px}
+.about #aboutLeft h2{margin-bottom:24px}
+.about.has-photo{display:grid;max-width:none;grid-template-columns:260px 1fr;gap:64px;align-items:start}
 .photo{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:12px;border:1px solid var(--line)}
 .about-text p{margin:0 0 18px;max-width:64ch;color:#CDD2D7}
 .about-text p:first-child{font-size:19px;color:var(--text)}
@@ -265,7 +273,7 @@ dialog.lightbox .close{position:absolute;top:-44px;right:0}
   .feature,.feature:nth-child(even){grid-template-columns:1fr;gap:28px}
   .feature:nth-child(even) .visual{order:0}
   .grid{grid-template-columns:1fr 1fr}
-  .about,.about.has-photo{grid-template-columns:1fr;gap:28px}
+  .about.has-photo{grid-template-columns:1fr;gap:28px}
   .about.has-photo .photo{max-width:240px}
   .skills{grid-template-columns:1fr 1fr}
   .p-body{grid-template-columns:1fr;gap:8px}
@@ -276,7 +284,8 @@ dialog.lightbox .close{position:absolute;top:-44px;right:0}
   .wrap{padding:0 20px}
   .nav a:not(.btn){display:none}
   section.block{padding:72px 0}
-  .grid,.skills,.edu,.gallery.two{grid-template-columns:1fr}
+  .grid,.skills,.edu,.gallery.two,.side-list{grid-template-columns:1fr}
+  .side-item{flex-direction:column;gap:2px}
   .pager{grid-template-columns:1fr}
   .pager .next{grid-column:1}
   .path{aspect-ratio:auto;padding:24px}
@@ -334,8 +343,9 @@ dialog.lightbox .close{position:absolute;top:-44px;right:0}
     </section>
 
     <section class="block" id="more" aria-labelledby="more-h">
-      <div class="sec-head"><div><h2 id="more-h">More projects</h2><p>Coursework, research and tools I built for myself.</p></div></div>
+      <div class="sec-head"><div><h2 id="more-h">More projects</h2><p>Coursework, research and other security tools.</p></div></div>
       <div class="grid" id="moreGrid"></div>
+      <div id="sideWrap"><h3 class="side-h">Side projects</h3><div class="side-list" id="sideGrid"></div></div>
     </section>
 
     <section class="block" id="about" aria-labelledby="about-h">
@@ -420,8 +430,9 @@ let openSkill = null;
 const st = c => STATUS[c.status] || STATUS.active;
 const statusChip = c => `<span class="status" style="--c:${st(c).c}">${st(c).label}</span>`;
 const featured = () => SITE.cases.filter(c=>c.featured);
-const others = () => SITE.cases.filter(c=>!c.featured);
-const ordered = () => featured().concat(others());
+const others = () => SITE.cases.filter(c=>!c.featured && !c.side);
+const sides = () => SITE.cases.filter(c=>!c.featured && c.side);
+const ordered = () => featured().concat(others(), sides());
 const usedIn = t => SITE.cases.filter(c=>(c.stack||[]).some(s=>lc(s)===lc(t)));
 const initials = n => String(n||"").trim().split(/\s+/).map(w=>w[0]).slice(0,2).join("").toUpperCase();
 const list = a => (a||[]).filter(x=>String(x).trim());
@@ -455,21 +466,23 @@ function renderHome(){
     const hl = list(c.highlights).length ? list(c.highlights) : list(c.did).slice(0,3);
     return `<article class="feature">${visual}
       <div>
-        <div class="meta"><span class="kind">${esc(c.kind)}</span>${statusChip(c)}</div>
+        <div class="meta"><span class="kind">${esc(c.kind)}</span></div>
         <h3><a href="#${esc(c.slug)}">${esc(c.name)}</a></h3>
         <p class="one">${esc(c.one)}</p>
         <ul class="hl">${hl.map(h=>`<li>${esc(h)}</li>`).join("")}</ul>
-        <ul class="tags">${(c.stack||[]).slice(0,6).map(s=>`<li>${esc(s)}</li>`).join("")}</ul>
+        <ul class="tags">${(c.stack||[]).slice(0,4).map(s=>`<li>${esc(s)}</li>`).join("")}</ul>
         <div class="actions"><a class="btn primary" href="#${esc(c.slug)}">Read the case study</a>${safeUrl(c.url)?`<a class="btn" href="${esc(c.url)}">${ICON.gh}Code</a>`:""}</div>
       </div></article>`;
   }).join("");
 
   // more
   $("moreGrid").innerHTML = others().map(c=>`<a class="card" href="#${esc(c.slug)}">
-      <div class="top-row"><span class="kind">${esc(c.kind)}</span>${statusChip(c)}</div>
+      <div class="top-row"><span class="kind">${esc(c.kind)}</span></div>
       <h3>${esc(c.name)}</h3><p>${esc(c.one)}</p>
       <ul class="tags">${(c.stack||[]).slice(0,3).map(s=>`<li>${esc(s)}</li>`).join("")}</ul></a>`).join("");
-  $("more").hidden = !others().length;
+  $("sideGrid").innerHTML = sides().map(c=>`<a class="side-item" href="#${esc(c.slug)}"><strong>${esc(c.name)}</strong><span>${esc(c.one)}</span></a>`).join("");
+  $("sideWrap").hidden = !sides().length;
+  $("more").hidden = !others().length && !sides().length;
 
   // about
   const A = SITE.about||{};
@@ -693,6 +706,7 @@ function renderEditor(){
       const i = edCase, p = `cases.${i}`;
       h += `<div class="group" style="padding-bottom:6px">${groupHead("Order and removal","cases",i,n)}</div>`;
       h += fld("Show in Selected work","" + p + ".featured","check");
+      h += fld("Side project (listed at the bottom)",`${p}.side`,"check");
       h += fld("Name",`${p}.name`,"text");
       h += `<div class="row">${fld("Kind",`${p}.kind`,"text",{help:"e.g. Web app"})}${fld("Status",`${p}.status`,"select",{options:[["active","In progress"],["shipped","Shipped"],["completed","Completed"]]})}</div>`;
       h += fld("One-line summary",`${p}.one`,"text");
@@ -761,7 +775,7 @@ edBody.addEventListener("change", e=>{
 });
 const BLANK = {
   profile: ()=>({label:"Label",value:""}),
-  cases: ()=>({slug:uniqueSlug("new-project",-1),name:"New project",cat:"tool",kind:"",status:"active",featured:false,one:"",highlights:[],lede:"",images:[],diagram:[],did:[],findings:[],next:"",log:[],stack:[],url:""}),
+  cases: ()=>({slug:uniqueSlug("new-project",-1),name:"New project",cat:"tool",kind:"",status:"active",featured:false,side:false,one:"",highlights:[],lede:"",images:[],diagram:[],did:[],findings:[],next:"",log:[],stack:[],url:""}),
   skills: ()=>({title:"New group",items:[]}),
   education: ()=>({degree:"",school:"",note:"",done:0,total:0}),
   training: ()=>({title:"",provider:"",topic:"",date:"",minutes:0,file:""})

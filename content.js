@@ -16,8 +16,8 @@ window.SITE = {
       "value": "Security operations, detection engineering, digital forensics"
     },
     {
-      "label": "Degree",
-      "value": "M.P.S., Cybersecurity Analytics & Operations, Penn State, 4.0 GPA"
+      "label": "Works with",
+      "value": "Python, MITRE ATT&CK, Windows event logs, SIEM"
     },
     {
       "label": "Graduating",
@@ -103,7 +103,8 @@ window.SITE = {
           "caption": "Rule explainability: the logic, score modifiers and ATT&CK mapping behind an alert"
         }
       ],
-      "diagram": []
+      "diagram": [],
+      "side": false
     },
     {
       "slug": "log-analyzer",
@@ -150,7 +151,8 @@ window.SITE = {
           "caption": "The HTML report: compromise chains, password spraying and brute force, each with the reasons behind its score"
         }
       ],
-      "diagram": []
+      "diagram": [],
+      "side": false
     },
     {
       "slug": "ml-anomaly-ids",
@@ -205,7 +207,8 @@ window.SITE = {
           "caption": "Report from the test capture: the hidden upload to 203.0.113.50 ranks first"
         }
       ],
-      "diagram": []
+      "diagram": [],
+      "side": false
     },
     {
       "slug": "shipco",
@@ -250,7 +253,8 @@ window.SITE = {
         "Privilege escalation",
         "Email spoofing",
         "Exfiltration to a look-alike domain"
-      ]
+      ],
+      "side": false
     },
     {
       "slug": "cyberdash",
@@ -276,7 +280,8 @@ window.SITE = {
       "featured": false,
       "highlights": [],
       "images": [],
-      "diagram": []
+      "diagram": [],
+      "side": false
     },
     {
       "slug": "memory-safety",
@@ -303,7 +308,8 @@ window.SITE = {
       "featured": false,
       "highlights": [],
       "images": [],
-      "diagram": []
+      "diagram": [],
+      "side": false
     },
     {
       "slug": "container-security",
@@ -332,7 +338,8 @@ window.SITE = {
       "featured": false,
       "highlights": [],
       "images": [],
-      "diagram": []
+      "diagram": [],
+      "side": false
     },
     {
       "slug": "cyber-range-rubric",
@@ -357,7 +364,8 @@ window.SITE = {
       "featured": false,
       "highlights": [],
       "images": [],
-      "diagram": []
+      "diagram": [],
+      "side": false
     },
     {
       "slug": "cache-flow",
@@ -384,7 +392,8 @@ window.SITE = {
       "featured": false,
       "highlights": [],
       "images": [],
-      "diagram": []
+      "diagram": [],
+      "side": true
     },
     {
       "slug": "bitebudget",
@@ -412,73 +421,57 @@ window.SITE = {
       "featured": false,
       "highlights": [],
       "images": [],
-      "diagram": []
+      "diagram": [],
+      "side": true
     }
   ],
   "skills": [
     {
-      "title": "Security operations",
+      "title": "Detection and response",
       "items": [
         "Log analysis",
         "SIEM",
-        "Incident response",
-        "Threat hunting",
-        "Anomaly detection",
         "Detection engineering",
         "Event correlation",
         "MITRE ATT&CK",
-        "Security monitoring"
-      ]
-    },
-    {
-      "title": "Networking and analysis",
-      "items": [
-        "Wireshark",
-        "Nmap",
-        "Scapy",
-        "Network traffic analysis",
-        "Packet analysis"
-      ]
-    },
-    {
-      "title": "Systems and identity",
-      "items": [
-        "Windows",
-        "Windows event logs",
-        "Linux",
-        "macOS",
-        "Active Directory",
-        "Group Policy",
-        "RBAC",
-        "Least privilege"
+        "Incident response",
+        "Anomaly detection"
       ]
     },
     {
       "title": "Forensics",
       "items": [
         "Digital forensics",
-        "Volatility",
-        "Rekall",
         "Memory forensics",
         "Indicators of compromise"
       ]
     },
     {
-      "title": "Programming and tools",
+      "title": "Networks",
+      "items": [
+        "Network traffic analysis",
+        "Packet analysis",
+        "Wireshark",
+        "Scapy"
+      ]
+    },
+    {
+      "title": "Systems and identity",
+      "items": [
+        "Windows event logs",
+        "Linux",
+        "Active Directory",
+        "Least privilege"
+      ]
+    },
+    {
+      "title": "Programming",
       "items": [
         "Python",
         "Bash",
         "C",
-        "JavaScript",
-        "Git",
-        "GitHub",
-        "VS Code",
-        "Secure coding",
         "Machine learning",
-        "scikit-learn",
-        "Pandas",
-        "Streamlit",
-        "pytest"
+        "Secure coding"
       ]
     },
     {
@@ -486,8 +479,7 @@ window.SITE = {
       "items": [
         "Docker",
         "Kubernetes",
-        "Cloud security",
-        "Vulnerability analysis"
+        "Cloud security"
       ]
     }
   ],
@@ -530,9 +522,8 @@ window.SITE = {
   "about": {
     "title": "About me",
     "text": [
-      "I'm finishing an M.P.S. in Cybersecurity Analytics and Operations at Penn State World Campus, with a 4.0 GPA, and graduate in December 2026. Most of the projects here started as a question about how a detection really works and turned into a tool I could test against real attack patterns.",
-      "Before security I studied business management, and it still shapes how I work. A good investigation ends with fixes someone can approve and fund, not just a list of what went wrong. The Shipco case is a good example: every gap I found came with a control and a reason it was worth the cost.",
-      "I'm looking for SOC analyst, digital forensics, risk and IT security roles in the Lehigh Valley or remote."
+      "Most of the projects here started as a question about how a detection really works and turned into a tool I could test against real attack patterns. I pay as much attention to what a tool misses as to what it catches.",
+      "Before security I studied business management, and it still shapes how I work. A good investigation ends with fixes someone can approve and fund, not just a list of what went wrong. The Shipco case is a good example: every gap I found came with a control and a reason it was worth the cost."
     ]
   },
   "training": [
