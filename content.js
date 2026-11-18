@@ -108,11 +108,19 @@ window.SITE = {
       "results": [
         {
           "label": "Detection rules",
-          "value": "30+ YAML rules, each mapped to MITRE ATT&CK techniques"
+          "value": "30+ YAML rules, each mapped to MITRE ATT&CK techniques",
+          "href": "https://github.com/paullydd/soc-forge/tree/main/soc_forge/rules",
+          "linkText": "The rules"
         },
         {
           "label": "Simulated attack chain (sample report)",
-          "value": "Version 3.6.1 run: 14 alerts, 5 correlations and 1 threat-hunt finding. Top case: RDP logon followed by a scheduled task running encoded PowerShell, rated critical. The screenshots below come from an earlier version 3.5 run of the same scenario, so their counts differ"
+          "value": "Version 3.6.1 run: 14 alerts, 5 correlations and 1 threat-hunt finding. Top case: a new privileged account followed by audit-log clearing, rated critical at the maximum risk score of 400, with both accounts involved listed as indicators. The screenshots below come from an earlier version 3.5 run of the same scenario, so their counts differ",
+          "href": "samples/soc-forge-attack-chain-report.html",
+          "linkText": "The sample report"
+        },
+        {
+          "label": "Reading the report's scores",
+          "value": "Risk score adds up the alert scores in a case, plus 30 if a correlation rule fired and 10 for each extra ATT&CK tactic, capped at 400. Confidence on each reconstructed step rises with that alert's score, from 55% up to 98%. It's a weighting, not a measured probability. Quality 100/100 measures how complete the case write-up is (timeline, entities, correlation, actions, story), not detection accuracy"
         },
         {
           "label": "Gaps it reports",
@@ -120,7 +128,9 @@ window.SITE = {
         },
         {
           "label": "Automated tests",
-          "value": "Over 1,000 test functions, run with pytest"
+          "value": "Over 1,000 test functions, run with pytest",
+          "href": "https://github.com/paullydd/soc-forge/tree/main/tests",
+          "linkText": "The tests"
         },
         {
           "label": "Not measured yet",
@@ -131,6 +141,18 @@ window.SITE = {
       "sample": {
         "label": "Sample report",
         "href": "samples/soc-forge-attack-chain-report.html"
+      },
+      "reproduce": {
+        "steps": [
+          "git clone https://github.com/paullydd/soc-forge.git",
+          "cd soc-forge",
+          "python3 -m venv .venv && source .venv/bin/activate",
+          "python -m pip install -e .",
+          "soc-forge --simulate attack_chain --sim-output out/attack_chain_events.jsonl",
+          "soc-forge --input out/attack_chain_events.jsonl --html out/attack_chain_report.html"
+        ],
+        "expect": "Writes an incident report like the sample, with a critical case for an RDP logon followed by a scheduled task. Exact counts can change between versions as rules are added.",
+        "href": "https://github.com/paullydd/soc-forge#quick-start"
       }
     },
     {
@@ -182,19 +204,27 @@ window.SITE = {
       "results": [
         {
           "label": "Noise test",
-          "value": "1,000 rows of random logins across 93 IPs: 0 alerts"
+          "value": "1,000 rows of random logins across 93 IPs: 0 alerts",
+          "href": "https://github.com/paullydd/python-log-parser/blob/main/python_log_parser/examples/sample_security_logs.csv",
+          "linkText": "The noise file"
         },
         {
           "label": "Labeled scenarios",
-          "value": "RDP brute force with compromise, password spray with compromise, brute force then success, low-and-slow guessing, a failed burst: all 11 expected alerts, no extras"
+          "value": "RDP brute force with compromise, password spray with compromise, brute force then success, low-and-slow guessing, a failed burst: all 11 expected alerts, no extras",
+          "href": "https://github.com/paullydd/python-log-parser/blob/main/python_log_parser/examples/attack_scenarios.csv",
+          "linkText": "The scenario file"
         },
         {
           "label": "Real attack logs",
-          "value": "Kerberos password spray from EVTX-ATTACK-SAMPLES (11 accounts, 4 nonexistent): spray and compromised account both found"
+          "value": "Kerberos password spray from EVTX-ATTACK-SAMPLES (11 accounts, 4 nonexistent): spray and compromised account both found",
+          "href": "https://github.com/paullydd/python-log-parser#tested-on-real-attack-logs",
+          "linkText": "How it was tested"
         },
         {
           "label": "Tests",
-          "value": "Unit tests for every scenario, input format and edge case, run by GitHub Actions on every push"
+          "value": "Unit tests for every scenario, input format and edge case, run by GitHub Actions on every push",
+          "href": "https://github.com/paullydd/python-log-parser/blob/main/tests/test_detections.py",
+          "linkText": "The tests"
         },
         {
           "label": "Known gap",
@@ -205,6 +235,15 @@ window.SITE = {
       "sample": {
         "label": "",
         "href": ""
+      },
+      "reproduce": {
+        "steps": [
+          "git clone https://github.com/paullydd/python-log-parser.git",
+          "cd python-log-parser",
+          "python3 main.py"
+        ],
+        "expect": "Prints the 11 alerts for the labeled scenarios and writes reports/attack_scenarios_report.html. Run python3 main.py python_log_parser/examples/sample_security_logs.csv to see the noise test raise nothing.",
+        "href": "https://github.com/paullydd/python-log-parser#quick-start"
       }
     },
     {
@@ -265,11 +304,15 @@ window.SITE = {
       "results": [
         {
           "label": "Test data",
-          "value": "Synthetic capture: about 10,000 packets, 916 flows from 17 workstations, with an attack lined up with sample Windows logs"
+          "value": "Synthetic capture: about 10,000 packets, 916 flows from 17 workstations, with an attack lined up with sample Windows logs",
+          "href": "https://github.com/paullydd/ml-network-detection/blob/main/anomaly-ids/anomaly_detector/sample.py",
+          "linkText": "The capture generator"
         },
         {
           "label": "Exfiltration upload",
-          "value": "2 of 2 flows flagged, top score"
+          "value": "2 of 2 flows flagged, top score",
+          "href": "https://github.com/paullydd/ml-network-detection#results-on-the-sample-data",
+          "linkText": "Full results table"
         },
         {
           "label": "RDP session after brute force",
@@ -292,6 +335,18 @@ window.SITE = {
       "sample": {
         "label": "",
         "href": ""
+      },
+      "reproduce": {
+        "steps": [
+          "git clone https://github.com/paullydd/ml-network-detection.git",
+          "cd ml-network-detection/anomaly-ids",
+          "python3 -m venv .venv && source .venv/bin/activate",
+          "pip install -e .",
+          "anomaly-detect sample",
+          "anomaly-detect run"
+        ],
+        "expect": "Flags about 46 of 916 flows, with the upload to 203.0.113.50 ranked first, and writes reports/anomaly_report.html.",
+        "href": "https://github.com/paullydd/ml-network-detection#quick-start"
       }
     },
     {
@@ -344,6 +399,11 @@ window.SITE = {
       "sample": {
         "label": "",
         "href": ""
+      },
+      "reproduce": {
+        "steps": [],
+        "expect": "",
+        "href": ""
       }
     },
     {
@@ -376,6 +436,11 @@ window.SITE = {
       "cover": "",
       "sample": {
         "label": "",
+        "href": ""
+      },
+      "reproduce": {
+        "steps": [],
+        "expect": "",
         "href": ""
       }
     },
@@ -410,6 +475,11 @@ window.SITE = {
       "cover": "",
       "sample": {
         "label": "",
+        "href": ""
+      },
+      "reproduce": {
+        "steps": [],
+        "expect": "",
         "href": ""
       }
     },
@@ -447,6 +517,11 @@ window.SITE = {
       "sample": {
         "label": "",
         "href": ""
+      },
+      "reproduce": {
+        "steps": [],
+        "expect": "",
+        "href": ""
       }
     },
     {
@@ -478,6 +553,11 @@ window.SITE = {
       "cover": "",
       "sample": {
         "label": "",
+        "href": ""
+      },
+      "reproduce": {
+        "steps": [],
+        "expect": "",
         "href": ""
       }
     },
@@ -513,6 +593,11 @@ window.SITE = {
       "sample": {
         "label": "",
         "href": ""
+      },
+      "reproduce": {
+        "steps": [],
+        "expect": "",
+        "href": ""
       }
     },
     {
@@ -547,6 +632,11 @@ window.SITE = {
       "cover": "",
       "sample": {
         "label": "",
+        "href": ""
+      },
+      "reproduce": {
+        "steps": [],
+        "expect": "",
         "href": ""
       }
     }
