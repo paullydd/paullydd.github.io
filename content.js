@@ -92,11 +92,11 @@ window.SITE = {
       "images": [
         {
           "src": "images/soc-forge-command-center.webp",
-          "caption": "The web workspace: cases, rule activity and the ATT&CK tactics behind them"
+          "caption": "The web workspace (version 3.5 demo run): cases, rule activity and the ATT&CK tactics behind them"
         },
         {
           "src": "images/soc-forge-attack-chain.webp",
-          "caption": "Detection lab result for a simulated attack chain: 6 rules fired, 10 alerts, 5 cases"
+          "caption": "Detection lab, attack-chain simulation (version 3.5 run): 6 rules fired, 10 alerts, 5 cases"
         },
         {
           "src": "images/soc-forge-rule-explainability.webp",
@@ -111,8 +111,8 @@ window.SITE = {
           "value": "30+ YAML rules, each mapped to MITRE ATT&CK techniques"
         },
         {
-          "label": "Simulated attack chain",
-          "value": "14 alerts, 5 correlations and 1 threat-hunt finding. Top case: RDP logon followed by a scheduled task running encoded PowerShell, rated critical (see the sample report)"
+          "label": "Simulated attack chain (sample report)",
+          "value": "Version 3.6.1 run: 14 alerts, 5 correlations and 1 threat-hunt finding. Top case: RDP logon followed by a scheduled task running encoded PowerShell, rated critical. The screenshots below come from an earlier version 3.5 run of the same scenario, so their counts differ"
         },
         {
           "label": "Gaps it reports",

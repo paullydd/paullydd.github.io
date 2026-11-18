@@ -212,6 +212,8 @@ footer a{color:var(--muted)}
 .side .tags{margin:0}
 .side .btn{width:100%;justify-content:center}
 .side-links{display:grid;gap:10px}
+.p-results{max-width:880px;margin-bottom:56px}
+.p-results h2{font-size:22px;letter-spacing:-.01em;margin:0 0 14px}
 .results{margin:0;border-top:1px solid var(--line)}
 .results div{display:grid;grid-template-columns:210px 1fr;gap:20px;padding:12px 0;border-bottom:1px solid var(--line)}
 .results dt{color:var(--muted);font-size:15px}
@@ -585,10 +587,10 @@ function renderProject(slug){
       <h1 id="p-title" tabindex="-1" style="outline:none">${esc(c.name)}</h1>
       <p class="lede">${esc(c.lede)}</p>
     </header>
+    ${(c.results||[]).filter(r=>r.label||r.value).length ? `<section class="p-results"><h2>Testing and results</h2><dl class="results">${c.results.filter(r=>r.label||r.value).map(r=>`<div><dt>${esc(r.label)}</dt><dd>${esc(r.value)}</dd></div>`).join("")}</dl></section>` : ""}
     ${gallery}
     <div class="p-body">
       <div>
-        ${(c.results||[]).filter(r=>r.label||r.value).length ? `<section><h2>Testing and results</h2><dl class="results">${c.results.filter(r=>r.label||r.value).map(r=>`<div><dt>${esc(r.label)}</dt><dd>${esc(r.value)}</dd></div>`).join("")}</dl></section>` : ""}
         ${sec("What I did", c.did)}
         ${sec("Findings and results", c.findings)}
         ${c.next ? `<section><h2>What's next</h2><p>${esc(c.next)}</p></section>` : ""}
