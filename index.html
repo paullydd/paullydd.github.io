@@ -216,6 +216,11 @@ footer a{color:var(--muted)}
 .ev{color:var(--accent);font-size:14.5px;white-space:nowrap;text-underline-offset:3px;margin-left:4px}
 .expect{color:var(--muted);font-size:15.5px;margin-top:12px!important}
 .expect a{color:var(--accent)}
+.decision{border-left:2px solid var(--accent);padding-left:22px}
+.decision .d-title{font-weight:600;margin:0 0 12px!important}
+.decision dl{margin:0;display:grid;gap:14px}
+.decision dt{font-size:14px;color:var(--muted);margin-bottom:2px}
+.decision dd{margin:0;max-width:66ch}
 .p-results{max-width:880px;margin-bottom:56px}
 .p-results h2{font-size:22px;letter-spacing:-.01em;margin:0 0 14px}
 .results{margin:0;border-top:1px solid var(--line)}
@@ -595,6 +600,7 @@ function renderProject(slug){
     ${gallery}
     <div class="p-body">
       <div>
+        ${(c.decision&&(c.decision.choice||c.decision.tradeoff)) ? `<section class="decision"><h2>Decision and tradeoff</h2>${c.decision.title?`<p class="d-title">${esc(c.decision.title)}</p>`:""}<dl>${c.decision.choice?`<div><dt>What I chose</dt><dd>${esc(c.decision.choice)}</dd></div>`:""}${c.decision.tradeoff?`<div><dt>The tradeoff</dt><dd>${esc(c.decision.tradeoff)}</dd></div>`:""}</dl></section>` : ""}
         ${sec("What I did", c.did)}
         ${sec("Findings and results", c.findings)}
         ${c.next ? `<section><h2>What's next</h2><p>${esc(c.next)}</p></section>` : ""}
@@ -751,6 +757,9 @@ function renderEditor(){
       h += fld("One-line summary",`${p}.one`,"text");
       h += fld("Highlights",`${p}.highlights`,"lines",{rows:3,help:"Up to three short points, one per line. Shown on the home page for featured projects."});
       h += fld("Overview",`${p}.lede`,"textarea",{rows:4});
+      h += fld("Decision: topic",`${p}.decision.title`,"text",{ph:"e.g. Choosing a 60-second window"});
+      h += fld("Decision: what I chose and why",`${p}.decision.choice`,"textarea",{rows:3});
+      h += fld("Decision: the tradeoff",`${p}.decision.tradeoff`,"textarea",{rows:3,help:"What it costs, what you tried first, or what you changed."});
       h += fld("Testing and results",`${p}.results`,"pairs",{rows:5,help:"One per line: label | result | optional evidence link. Shown first on the case study."});
       h += fld("Reproduce: commands",`${p}.reproduce.steps`,"lines",{rows:4,help:"One command per line."});
       h += fld("Reproduce: expected result",`${p}.reproduce.expect`,"textarea",{rows:2});
@@ -821,7 +830,7 @@ edBody.addEventListener("change", e=>{
 });
 const BLANK = {
   profile: ()=>({label:"Label",value:""}),
-  cases: ()=>({slug:uniqueSlug("new-project",-1),name:"New project",cat:"tool",kind:"",status:"active",featured:false,side:false,origin:"",cover:"",sample:{label:"",href:""},results:[],reproduce:{steps:[],expect:"",href:""},one:"",highlights:[],lede:"",images:[],diagram:[],did:[],findings:[],next:"",log:[],stack:[],url:""}),
+  cases: ()=>({slug:uniqueSlug("new-project",-1),name:"New project",cat:"tool",kind:"",status:"active",featured:false,side:false,origin:"",decision:{title:"",choice:"",tradeoff:""},cover:"",sample:{label:"",href:""},results:[],reproduce:{steps:[],expect:"",href:""},one:"",highlights:[],lede:"",images:[],diagram:[],did:[],findings:[],next:"",log:[],stack:[],url:""}),
   skills: ()=>({title:"New group",items:[]}),
   education: ()=>({degree:"",school:"",note:"",done:0,total:0}),
   training: ()=>({title:"",provider:"",topic:"",date:"",minutes:0,file:""})

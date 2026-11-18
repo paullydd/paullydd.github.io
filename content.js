@@ -154,7 +154,12 @@ window.SITE = {
         "expect": "Writes an incident report like the sample, with a critical case for an RDP logon followed by a scheduled task. Exact counts can change between versions as rules are added.",
         "href": "https://github.com/paullydd/soc-forge#quick-start"
       },
-      "origin": "Independent project"
+      "origin": "Independent project",
+      "decision": {
+        "title": "Correlating alerts into cases",
+        "choice": "I chose to correlate alerts using shared entities and timing, so an analyst can investigate related activity as one case instead of reviewing each alert separately.",
+        "tradeoff": "A shared user, host or IP doesn't prove a connection. So every case shows the evidence that ties its alerts together and the gaps it couldn't fill, like the missing execution step in the sample report, and the analyst makes the final call."
+      }
     },
     {
       "slug": "log-analyzer",
@@ -246,7 +251,12 @@ window.SITE = {
         "expect": "Prints the 11 alerts for the labeled scenarios and writes reports/attack_scenarios_report.html. Run python3 main.py python_log_parser/examples/sample_security_logs.csv to see the noise test raise nothing.",
         "href": "https://github.com/paullydd/python-log-parser#quick-start"
       },
-      "origin": ""
+      "origin": "",
+      "decision": {
+        "title": "",
+        "choice": "",
+        "tradeoff": ""
+      }
     },
     {
       "slug": "ml-anomaly-ids",
@@ -350,7 +360,12 @@ window.SITE = {
         "expect": "Flags about 46 of 916 flows, with the upload to 203.0.113.50 ranked first, and writes reports/anomaly_report.html.",
         "href": "https://github.com/paullydd/ml-network-detection#quick-start"
       },
-      "origin": ""
+      "origin": "",
+      "decision": {
+        "title": "",
+        "choice": "",
+        "tradeoff": ""
+      }
     },
     {
       "slug": "shipco",
@@ -408,7 +423,12 @@ window.SITE = {
         "expect": "",
         "href": ""
       },
-      "origin": "Penn State coursework"
+      "origin": "Penn State coursework",
+      "decision": {
+        "title": "",
+        "choice": "",
+        "tradeoff": ""
+      }
     },
     {
       "slug": "cyberdash",
@@ -447,7 +467,12 @@ window.SITE = {
         "expect": "",
         "href": ""
       },
-      "origin": "Independent project"
+      "origin": "Independent project",
+      "decision": {
+        "title": "",
+        "choice": "",
+        "tradeoff": ""
+      }
     },
     {
       "slug": "memory-safety",
@@ -487,7 +512,12 @@ window.SITE = {
         "expect": "",
         "href": ""
       },
-      "origin": "Penn State coursework (IST 543)"
+      "origin": "Penn State coursework (IST 543)",
+      "decision": {
+        "title": "",
+        "choice": "",
+        "tradeoff": ""
+      }
     },
     {
       "slug": "container-security",
@@ -529,7 +559,12 @@ window.SITE = {
         "expect": "",
         "href": ""
       },
-      "origin": "Penn State coursework"
+      "origin": "Penn State coursework",
+      "decision": {
+        "title": "",
+        "choice": "",
+        "tradeoff": ""
+      }
     },
     {
       "slug": "cyber-range-rubric",
@@ -567,7 +602,12 @@ window.SITE = {
         "expect": "",
         "href": ""
       },
-      "origin": "Penn State coursework"
+      "origin": "Penn State coursework",
+      "decision": {
+        "title": "",
+        "choice": "",
+        "tradeoff": ""
+      }
     },
     {
       "slug": "cache-flow",
@@ -607,7 +647,12 @@ window.SITE = {
         "expect": "",
         "href": ""
       },
-      "origin": "Independent project"
+      "origin": "Independent project",
+      "decision": {
+        "title": "",
+        "choice": "",
+        "tradeoff": ""
+      }
     },
     {
       "slug": "bitebudget",
@@ -648,7 +693,12 @@ window.SITE = {
         "expect": "",
         "href": ""
       },
-      "origin": "Independent project"
+      "origin": "Independent project",
+      "decision": {
+        "title": "",
+        "choice": "",
+        "tradeoff": ""
+      }
     }
   ],
   "skills": [
