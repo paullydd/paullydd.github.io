@@ -88,6 +88,7 @@ h2{font-size:clamp(30px,3.4vw,40px);line-height:1.1;letter-spacing:-.025em;margi
 .visual:hover{border-color:var(--muted)}
 .feature .meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
 .kind{font-size:14px;color:var(--muted)}
+.origin{font-size:13px;color:var(--muted);border:1px solid var(--line-2);border-radius:999px;padding:1px 9px}
 .status{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:500;color:var(--c)}
 .status::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c)}
 .feature h3{font-size:clamp(26px,2.6vw,32px);letter-spacing:-.02em;line-height:1.15;margin:0 0 12px}
@@ -495,7 +496,7 @@ function renderHome(){
     const hl = list(c.highlights).length ? list(c.highlights) : list(c.did).slice(0,3);
     return `<article class="feature">${visual}
       <div>
-        <div class="meta"><span class="kind">${esc(c.kind)}</span></div>
+        <div class="meta"><span class="kind">${esc(c.kind)}</span>${c.origin?`<span class="origin">${esc(c.origin)}</span>`:""}</div>
         <h3><a href="#${esc(c.slug)}">${esc(c.name)}</a></h3>
         <p class="one">${esc(c.one)}</p>
         <ul class="hl">${hl.map(h=>`<li>${esc(h)}</li>`).join("")}</ul>
@@ -506,7 +507,7 @@ function renderHome(){
 
   // more
   $("moreGrid").innerHTML = others().map(c=>`<a class="card" href="#${esc(c.slug)}">
-      <div class="top-row"><span class="kind">${esc(c.kind)}</span></div>
+      <div class="top-row"><span class="kind">${esc(c.kind)}${c.origin&&/coursework/i.test(c.origin)?" · coursework":""}</span></div>
       <h3>${esc(c.name)}</h3><p>${esc(c.one)}</p>
       <ul class="tags">${(c.stack||[]).slice(0,3).map(s=>`<li>${esc(s)}</li>`).join("")}</ul></a>`).join("");
   $("sideGrid").innerHTML = sides().map(c=>`<a class="side-item" href="#${esc(c.slug)}"><strong>${esc(c.name)}</strong><span>${esc(c.one)}</span></a>`).join("");
@@ -586,7 +587,7 @@ function renderProject(slug){
   $("projectWrap").innerHTML = `
     <a class="back" href="#work">‹ All work</a>
     <header class="p-head">
-      <div class="meta"><span class="kind">${esc(c.kind)}</span>${statusChip(c)}</div>
+      <div class="meta"><span class="kind">${esc(c.kind)}</span>${c.origin?`<span class="origin">${esc(c.origin)}</span>`:""}${statusChip(c)}</div>
       <h1 id="p-title" tabindex="-1" style="outline:none">${esc(c.name)}</h1>
       <p class="lede">${esc(c.lede)}</p>
     </header>
@@ -745,6 +746,7 @@ function renderEditor(){
       h += fld("Show in Selected work","" + p + ".featured","check");
       h += fld("Side project (listed at the bottom)",`${p}.side`,"check");
       h += fld("Name",`${p}.name`,"text");
+      h += fld("Origin",`${p}.origin`,"text",{ph:"Independent project, or Penn State coursework"});
       h += `<div class="row">${fld("Kind",`${p}.kind`,"text",{help:"e.g. Web app"})}${fld("Status",`${p}.status`,"select",{options:[["active","In progress"],["shipped","Shipped"],["completed","Completed"]]})}</div>`;
       h += fld("One-line summary",`${p}.one`,"text");
       h += fld("Highlights",`${p}.highlights`,"lines",{rows:3,help:"Up to three short points, one per line. Shown on the home page for featured projects."});
@@ -819,7 +821,7 @@ edBody.addEventListener("change", e=>{
 });
 const BLANK = {
   profile: ()=>({label:"Label",value:""}),
-  cases: ()=>({slug:uniqueSlug("new-project",-1),name:"New project",cat:"tool",kind:"",status:"active",featured:false,side:false,cover:"",sample:{label:"",href:""},results:[],reproduce:{steps:[],expect:"",href:""},one:"",highlights:[],lede:"",images:[],diagram:[],did:[],findings:[],next:"",log:[],stack:[],url:""}),
+  cases: ()=>({slug:uniqueSlug("new-project",-1),name:"New project",cat:"tool",kind:"",status:"active",featured:false,side:false,origin:"",cover:"",sample:{label:"",href:""},results:[],reproduce:{steps:[],expect:"",href:""},one:"",highlights:[],lede:"",images:[],diagram:[],did:[],findings:[],next:"",log:[],stack:[],url:""}),
   skills: ()=>({title:"New group",items:[]}),
   education: ()=>({degree:"",school:"",note:"",done:0,total:0}),
   training: ()=>({title:"",provider:"",topic:"",date:"",minutes:0,file:""})

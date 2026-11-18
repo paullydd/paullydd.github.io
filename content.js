@@ -153,7 +153,8 @@ window.SITE = {
         ],
         "expect": "Writes an incident report like the sample, with a critical case for an RDP logon followed by a scheduled task. Exact counts can change between versions as rules are added.",
         "href": "https://github.com/paullydd/soc-forge#quick-start"
-      }
+      },
+      "origin": "Independent project"
     },
     {
       "slug": "log-analyzer",
@@ -244,7 +245,8 @@ window.SITE = {
         ],
         "expect": "Prints the 11 alerts for the labeled scenarios and writes reports/attack_scenarios_report.html. Run python3 main.py python_log_parser/examples/sample_security_logs.csv to see the noise test raise nothing.",
         "href": "https://github.com/paullydd/python-log-parser#quick-start"
-      }
+      },
+      "origin": ""
     },
     {
       "slug": "ml-anomaly-ids",
@@ -347,7 +349,8 @@ window.SITE = {
         ],
         "expect": "Flags about 46 of 916 flows, with the upload to 203.0.113.50 ranked first, and writes reports/anomaly_report.html.",
         "href": "https://github.com/paullydd/ml-network-detection#quick-start"
-      }
+      },
+      "origin": ""
     },
     {
       "slug": "shipco",
@@ -404,7 +407,8 @@ window.SITE = {
         "steps": [],
         "expect": "",
         "href": ""
-      }
+      },
+      "origin": "Penn State coursework"
     },
     {
       "slug": "cyberdash",
@@ -442,7 +446,8 @@ window.SITE = {
         "steps": [],
         "expect": "",
         "href": ""
-      }
+      },
+      "origin": "Independent project"
     },
     {
       "slug": "memory-safety",
@@ -481,13 +486,14 @@ window.SITE = {
         "steps": [],
         "expect": "",
         "href": ""
-      }
+      },
+      "origin": "Penn State coursework (IST 543)"
     },
     {
       "slug": "container-security",
       "name": "Container Security",
       "cat": "research",
-      "kind": "Course project",
+      "kind": "Hardening project",
       "status": "completed",
       "one": "Securing containers from image to cluster.",
       "lede": "A project on securing a container workload end to end, from the image and registry to the cluster it runs on and how you watch it.",
@@ -522,7 +528,8 @@ window.SITE = {
         "steps": [],
         "expect": "",
         "href": ""
-      }
+      },
+      "origin": "Penn State coursework"
     },
     {
       "slug": "cyber-range-rubric",
@@ -559,7 +566,8 @@ window.SITE = {
         "steps": [],
         "expect": "",
         "href": ""
-      }
+      },
+      "origin": "Penn State coursework"
     },
     {
       "slug": "cache-flow",
@@ -598,7 +606,8 @@ window.SITE = {
         "steps": [],
         "expect": "",
         "href": ""
-      }
+      },
+      "origin": "Independent project"
     },
     {
       "slug": "bitebudget",
@@ -638,7 +647,8 @@ window.SITE = {
         "steps": [],
         "expect": "",
         "href": ""
-      }
+      },
+      "origin": "Independent project"
     }
   ],
   "skills": [
@@ -739,7 +749,8 @@ window.SITE = {
     "title": "About me",
     "text": [
       "Most of the projects here started as a question about how a detection really works and turned into a tool I could test against real attack patterns. I pay as much attention to what a tool misses as to what it catches.",
-      "Before security I studied business management, and it still shapes how I work. A good investigation ends with fixes someone can approve and fund, not just a list of what went wrong. The Shipco case is a good example: every gap I found came with a control and a reason it was worth the cost."
+      "Before security I studied business management, and it still shapes how I work. A good investigation ends with fixes someone can approve and fund, not just a list of what went wrong. The Shipco case is a good example: every gap I found came with a control and a reason it was worth the cost.",
+      "I use AI-assisted coding to help implement, debug and test parts of these projects. I define the security use cases, review the generated code, validate behavior against test scenarios, and document the results and limitations, including what each tool misses."
     ]
   },
   "training": [
